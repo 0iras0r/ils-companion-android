@@ -1,12 +1,15 @@
-# FOSDEM Companion
+# LD16 Companion
+Just a simple fork of the advanced native Android schedule browser application for the [FOSDEM](http://fosdem.org/) conference in Brussels, Belgium. The original project was made by Christophe Beyls.
 
-Advanced native Android schedule browser application for the [FOSDEM](http://fosdem.org/) conference in Brussels, Belgium.
+The challenge is to make an agnostic version for any kind of conference.
+We hope we could make this.
 
-This is a new implementation of the [legacy FOSDEM app](https://github.com/rkallensee/fosdem-android/). The code has been rewritten from scratch and the features have been extended. It uses loaders and fragments extensively and is backward compatible up to Android 2.1 thanks to the support library.
+##Dat Team (Alfabetic Order)
+Rosario Antoci
 
-To get more information and install the app, look at the [Google Play Store](https://play.google.com/store/apps/details?id=be.digitalia.fosdem) page.
+Valerio Bozzolan
 
-The name FOSDEM and the gear logo are registered trademarks of FOSDEM VZW. Used with permission.
+Ludovico Pavesi
 
 ## How to build
 
@@ -27,7 +30,3 @@ The result apk file will be placed in ```app/build/outputs/apk/```.
 * [Android Support Library](http://developer.android.com/tools/support-library/) by The Android Open Source Project
 * [ViewPagerIndicator](http://viewpagerindicator.com/) by Jake Wharton
 * [PhotoView](https://github.com/chrisbanes/PhotoView) by Chris Banes
-
-## Contributors
-
-* Christophe Beyls
