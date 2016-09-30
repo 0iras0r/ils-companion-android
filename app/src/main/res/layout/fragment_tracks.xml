@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <be.digitalia.fosdem.widgets.SlidingTabLayout
+        <it.reyboz.conferencecompanion.widgets.SlidingTabLayout
             android:id="@+id/sliding_tabs"
             style="@style/SlidingTabs"
             android:layout_width="match_parent"

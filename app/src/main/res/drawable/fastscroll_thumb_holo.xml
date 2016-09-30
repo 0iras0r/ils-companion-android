@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Original source code from FOSDEM Companion app by Christophe Beyls.
+Modified by Ludovico Pavesi.
+Licensed under the Apache License, version 2.0.
+-->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/fastscroll_thumb_pressed_holo" android:state_pressed="true"/>
+    <item android:drawable="@drawable/fastscroll_thumb_default_holo"/>
+
+</selector>

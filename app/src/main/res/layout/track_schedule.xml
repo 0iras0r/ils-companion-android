@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Original source code from FOSDEM Companion app by Christophe Beyls.
+Modified by Ludovico Pavesi.
+Licensed under the Apache License, version 2.0.
+-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
@@ -8,7 +14,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        style="@style/Toolbar.Fosdem"
+        style="@style/Toolbar.ConferenceCompanion"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:elevation="@dimen/toolbar_elevation"/>

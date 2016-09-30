@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textIsSelectable="true"
-                tools:text="Welcome to FOSDEM"/>
+                tools:text="Welcome"/>
 
             <TextView
                 android:id="@+id/subtitle"
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                tools:text="FOSDEM Staff"/>
+                tools:text="Staff"/>
 
             <View
                 style="@style/SeparatorLine"
@@ -82,7 +82,7 @@
             android:background="@color/translucent_grey"
             android:padding="@dimen/content_margin"
             android:textIsSelectable="true"
-            tools:text="FOSDEM welcome and opening talk."/>
+            tools:text="Welcome and opening talk."/>
 
         <TextView
             android:id="@+id/description"
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/content_margin"
             android:textIsSelectable="true"
-            tools:text="Welcome to FOSDEM 2015!"/>
+            tools:text="Welcome!"/>
 
         <LinearLayout
             android:id="@+id/links_container"

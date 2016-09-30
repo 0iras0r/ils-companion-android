@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<be.digitalia.fosdem.widgets.ScrimInsetsFrameLayout
+<!--
+Original source code from FOSDEM Companion app by Christophe Beyls.
+Modified by Ludovico Pavesi.
+Licensed under the Apache License, version 2.0.
+-->
+
+<it.reyboz.conferencecompanion.widgets.ScrimInsetsFrameLayout
     android:id="@+id/main_menu"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -20,15 +26,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
+            <!-- TODO: set this from xml in onCreate or similar place -->
+            <TextView
+                android:id="@+id/navigation_drawer_title"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/main_menu_header_height"
                 android:contentDescription="@string/app_name"
                 android:padding="@dimen/main_menu_padding"
                 android:scaleType="center"
-                android:src="@drawable/fosdem_title"/>
+            /> <!--android:src="@drawable/title"-->
 
-            <be.digitalia.fosdem.widgets.AdapterLinearLayout
+            <it.reyboz.conferencecompanion.widgets.AdapterLinearLayout
                 android:id="@+id/sections"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -65,4 +73,4 @@
         android:padding="4dp"
         tools:text="DB last updated: 1 jan. 2015 13:37:00"/>
 
-</be.digitalia.fosdem.widgets.ScrimInsetsFrameLayout>
+</it.reyboz.conferencecompanion.widgets.ScrimInsetsFrameLayout>

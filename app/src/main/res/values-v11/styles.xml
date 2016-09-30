@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Original source code from FOSDEM Companion app by Christophe Beyls.
+Modified by Ludovico Pavesi.
+Licensed under the Apache License, version 2.0.
+-->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Main theme -->
 
     <style name="AppTheme" parent="Base.AppTheme">
-        <item name="android:progressBarStyleHorizontal">@style/ProgressBar.Fosdem</item>
-        <item name="android:fastScrollThumbDrawable">@drawable/fosdem_fastscroll_thumb_holo</item>
+        <item name="android:progressBarStyleHorizontal">@style/ProgressBar.ConferenceCompanion</item>
+        <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_holo</item>
         <item name="android:selectableItemBackground">?attr/selectableItemBackground</item>
         <item name="android:listChoiceBackgroundIndicator">?attr/listChoiceBackgroundIndicator
         </item>
     </style>
 
-    <style name="ProgressBar.Fosdem" parent="android:Widget.Holo.ProgressBar.Horizontal">
+    <style name="ProgressBar.ConferenceCompanion" parent="android:Widget.Holo.ProgressBar.Horizontal">
         <item name="android:indeterminateDrawable">
-            @drawable/fosdem_progress_indeterminate_horizontal_holo_light
+            @drawable/progress_indeterminate_horizontal_holo_light
         </item>
-        <item name="android:progressDrawable">@drawable/fosdem_progress_horizontal_holo_light</item>
+        <item name="android:progressDrawable">@drawable/progress_horizontal_holo_light</item>
     </style>
 
 </resources>

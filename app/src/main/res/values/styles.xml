@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Original source code from FOSDEM Companion app by Christophe Beyls.
+Modified by Ludovico Pavesi.
+Licensed under the Apache License, version 2.0.
+-->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main theme -->
@@ -14,9 +20,9 @@
     </style>
 
     <style name="AppTheme" parent="Base.AppTheme">
-        <item name="android:progressBarStyleHorizontal">@style/ProgressBar.Fosdem</item>
-        <item name="android:listViewStyle">@style/ListView.Fosdem</item>
-        <item name="android:scrollViewStyle">@style/ScrollView.Fosdem</item>
+        <item name="android:progressBarStyleHorizontal">@style/ProgressBar.ConferenceCompanion</item>
+        <item name="android:listViewStyle">@style/ListView.ConferenceCompanion</item>
+        <item name="android:scrollViewStyle">@style/ScrollView.ConferenceCompanion</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -34,27 +40,27 @@
         <item name="colorAccent">@color/color_accent</item>
     </style>
 
-    <style name="Toolbar.Fosdem" parent="Widget.AppCompat.Toolbar">
+    <style name="Toolbar.ConferenceCompanion" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorPrimary</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
 
-    <style name="ProgressBar.Fosdem" parent="android:Widget.ProgressBar.Horizontal">
+    <style name="ProgressBar.ConferenceCompanion" parent="android:Widget.ProgressBar.Horizontal">
         <item name="android:indeterminateDrawable">
-            @drawable/fosdem_progress_indeterminate_horizontal_holo_light
+            @drawable/progress_indeterminate_horizontal_holo_light
         </item>
-        <item name="android:progressDrawable">@drawable/fosdem_progress_horizontal_holo_light</item>
+        <item name="android:progressDrawable">@drawable/progress_horizontal_holo_light</item>
         <item name="android:minHeight">16dip</item>
         <item name="android:maxHeight">16dip</item>
     </style>
 
-    <style name="ListView.Fosdem" parent="android:Widget.ListView.White">
+    <style name="ListView.ConferenceCompanion" parent="android:Widget.ListView.White">
         <item name="android:listSelector">?attr/listChoiceBackgroundIndicator</item>
         <item name="android:fadingEdge">none</item>
     </style>
 
-    <style name="ScrollView.Fosdem" parent="android:Widget.ScrollView">
+    <style name="ScrollView.ConferenceCompanion" parent="android:Widget.ScrollView">
         <!-- Fading edges were enabled by default on older devices and are now deprecated. -->
         <item name="android:fadingEdge">none</item>
     </style>

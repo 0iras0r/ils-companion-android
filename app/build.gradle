@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "be.digitalia.fosdem"
+        applicationId "it.reyboz.conferencecompanion"
         minSdkVersion 7
         targetSdkVersion 23
         versionCode 700136

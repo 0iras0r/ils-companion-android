@@ -17,14 +17,14 @@
         android:drawablePadding="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textSize="@dimen/abc_text_size_medium_material"
-        tools:text="Welcome to FOSDEM 2015"/>
+        tools:text="Welcome"/>
 
     <TextView
         android:id="@+id/persons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        tools:text="FOSDEM Staff"/>
+        tools:text="Staff"/>
 
     <TextView
         android:id="@+id/track_name"
