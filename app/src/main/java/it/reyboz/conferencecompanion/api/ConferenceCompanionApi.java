@@ -60,7 +60,7 @@ public class ConferenceCompanionApi {
 					ACTION_DOWNLOAD_SCHEDULE_PROGRESS,
 					EXTRA_PROGRESS);
 			if (httpResult.inputStream == null) {
-				// Nothing to parseForReal, the result is up-to-date.
+				// Nothing to parse, the result is up-to-date.
 				result = RESULT_UP_TO_DATE;
 				return;
 			}
