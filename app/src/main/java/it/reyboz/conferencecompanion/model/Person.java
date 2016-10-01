@@ -37,7 +37,7 @@ public class Person implements Parcelable {
 	}
 
 	public String getUrl() {
-		return ConferenceCompanionUrls.getPerson(StringUtils.toSlug(name), DatabaseManager.getInstance().getYear());
+		return ConferenceCompanionUrls.getPerson(StringUtils.toSlug(name), DatabaseManager.getInstance().getConference());
 	}
 
 	@Override

@@ -15,16 +15,25 @@ public class DateUtils {
 
 	private static final TimeZone BELGIUM_TIME_ZONE = TimeZone.getTimeZone("GMT+1");
 
-	public static TimeZone getBelgiumTimeZone() {
+	/**
+	 * Don't use this.
+	 *
+	 * @return Belgium time zone, actually
+	 * @deprecated
+     */
+	public static TimeZone getUTCTimeZone() {
 		return BELGIUM_TIME_ZONE;
 	}
 
-	public static DateFormat withBelgiumTimeZone(DateFormat format) {
+	/**
+	 * @deprecated
+	 */
+	public static DateFormat withUTCTimeZone(DateFormat format) {
 		format.setTimeZone(BELGIUM_TIME_ZONE);
 		return format;
 	}
 
 	public static DateFormat getTimeDateFormat(Context context) {
-		return withBelgiumTimeZone(android.text.format.DateFormat.getTimeFormat(context));
+		return withUTCTimeZone(android.text.format.DateFormat.getTimeFormat(context));
 	}
 }

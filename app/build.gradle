@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "it.reyboz.conferencecompanion"
-        minSdkVersion 7
+        minSdkVersion 8
         targetSdkVersion 23
         versionCode 700136
         versionName "1.3.6"

@@ -247,6 +247,10 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 
 		// Setup Main menu
 		mainMenu = findViewById(R.id.main_menu);
+
+		TextView mainMenuTitle = (TextView) mainMenu.findViewById(R.id.navigation_drawer_title);
+		mainMenuTitle.setText("asd"); // TODO: get this from xml
+
 		final AdapterLinearLayout sectionsList = (AdapterLinearLayout) findViewById(R.id.sections);
 		menuAdapter = new MainMenuAdapter(getLayoutInflater());
 		sectionsList.setAdapter(menuAdapter);

@@ -74,8 +74,22 @@ public abstract class AbstractPullParser<T> implements Parser<T> {
 		m_parser = getFactory().newPullParser();
 		m_parser.setInput(is, null);
 
-		return parse(m_parser);
+		return parseForReal(m_parser);
 	}
 
-	protected abstract T parse(XmlPullParser parser) throws Exception;
+	public T parse(XmlPullParser parser) throws Exception {
+		m_parser = parser;
+
+		return parseForReal(m_parser);
+	}
+
+	/**
+	 * If you don't want to raise a NullPointerException just by looking at the code, don't call
+	 * this directly, use parseForReal() instead.
+	 *
+	 * @param parser XmlPullParser which is guaranteed to exist, by now (hopefully)
+	 * @return the stuff you've extracted from the xml by the almighty mean of parsing things
+	 * @throws Exception I have no idea which exceptions might be raised, but that may happen.
+     */
+	protected abstract T parseForReal(XmlPullParser parser) throws Exception;
 }

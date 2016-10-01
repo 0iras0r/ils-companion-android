@@ -99,7 +99,7 @@ public class Event implements Parcelable {
 	}
 
 	public String getUrl() {
-		return ConferenceCompanionUrls.getEvent(slug, DatabaseManager.getInstance().getYear());
+		return ConferenceCompanionUrls.getEvent(slug, DatabaseManager.getInstance().getConference());
 	}
 
 	public String getTitle() {

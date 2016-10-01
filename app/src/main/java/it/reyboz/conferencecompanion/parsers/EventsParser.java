@@ -29,12 +29,12 @@ import it.reyboz.conferencecompanion.utils.DateUtils;
  *
  * @author Christophe Beyls
  */
-public class EventsParser extends IterableAbstractPullParser<Event> {
+public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 
-	private final DateFormat DATE_FORMAT = DateUtils.withBelgiumTimeZone(new SimpleDateFormat("yyyy-MM-dd", Locale.US));
+	private final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
-	// Calendar used to compute the events time, according to Belgium timezone
-	private final Calendar calendar = Calendar.getInstance(DateUtils.getBelgiumTimeZone(), Locale.US);
+	// Calendar used to compute the events time
+	private final Calendar calendar = Calendar.getInstance(DateUtils.getUTCTimeZone(), Locale.US);
 
 	private Day currentDay;
 	private String currentRoom;
@@ -61,28 +61,18 @@ public class EventsParser extends IterableAbstractPullParser<Event> {
 	}
 
 	@Override
-	protected boolean parseHeader(XmlPullParser parser) throws Exception {
-		while (!isEndDocument()) {
-			if (isStartTag("schedule")) {
-				return true;
-			}
+	protected ArrayList<Event> parseForReal(XmlPullParser parser) throws Exception {
+		ArrayList<Event> events = new ArrayList<>();
 
-			parser.next();
-		}
-		return false;
-	}
+		// parseForReal() is called when a start tag for <day> has been found
+		currentDay = new Day();
+		currentDay.setIndex(Integer.parseInt(parser.getAttributeValue(null, "index")));
+		currentDay.setDate(DATE_FORMAT.parse(parser.getAttributeValue(null, "date")));
 
-	@Override
-	protected Event parseNext(XmlPullParser parser) throws Exception {
-		while (!isNextEndTag("schedule")) {
+		while (!isNextEndTag("day")) {
 			if (isStartTag()) {
 
 				switch (parser.getName()) {
-					case "day":
-						currentDay = new Day();
-						currentDay.setIndex(Integer.parseInt(parser.getAttributeValue(null, "index")));
-						currentDay.setDate(DATE_FORMAT.parse(parser.getAttributeValue(null, "date")));
-						break;
 					case "room":
 						currentRoom = parser.getAttributeValue(null, "name");
 						break;
@@ -182,13 +172,14 @@ public class EventsParser extends IterableAbstractPullParser<Event> {
 						}
 						event.setTrack(currentTrack);
 
-						return event;
+						events.add(event);
 					default:
 						skipToEndTag();
 						break;
 				}
 			}
 		}
-		return null;
+
+		return events;
 	}
 }

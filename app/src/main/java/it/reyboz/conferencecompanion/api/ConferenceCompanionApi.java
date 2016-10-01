@@ -15,7 +15,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import it.reyboz.conferencecompanion.db.DatabaseManager;
 import it.reyboz.conferencecompanion.model.Event;
+import it.reyboz.conferencecompanion.model.Pentabarf;
 import it.reyboz.conferencecompanion.parsers.EventsParser;
+import it.reyboz.conferencecompanion.parsers.PentabarfParser;
 import it.reyboz.conferencecompanion.utils.HttpUtils;
 
 /**
@@ -58,14 +60,16 @@ public class ConferenceCompanionApi {
 					ACTION_DOWNLOAD_SCHEDULE_PROGRESS,
 					EXTRA_PROGRESS);
 			if (httpResult.inputStream == null) {
-				// Nothing to parse, the result is up-to-date.
+				// Nothing to parseForReal, the result is up-to-date.
 				result = RESULT_UP_TO_DATE;
 				return;
 			}
 
 			try {
-				Iterable<Event> events = new EventsParser().parse(httpResult.inputStream);
-				result = dbManager.storeSchedule(events, httpResult.lastModified);
+				// TODO: determine whether a miracle happens and this works, or not.
+				Pentabarf pentabarf = new PentabarfParser().parse(httpResult.inputStream);
+				//Iterable<Event> events = new EventsParser().parseForReal(httpResult.inputStream);
+				result = dbManager.storeSchedule(pentabarf.events, httpResult.lastModified);
 			} finally {
 				try {
 					httpResult.inputStream.close();

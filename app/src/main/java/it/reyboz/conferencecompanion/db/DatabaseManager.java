@@ -7,12 +7,10 @@
 package it.reyboz.conferencecompanion.db;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,12 +29,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.content.SharedPreferencesCompat;
 import android.text.TextUtils;
 
+import it.reyboz.conferencecompanion.model.Conference;
 import it.reyboz.conferencecompanion.model.Day;
 import it.reyboz.conferencecompanion.model.Event;
 import it.reyboz.conferencecompanion.model.Link;
 import it.reyboz.conferencecompanion.model.Person;
 import it.reyboz.conferencecompanion.model.Track;
-import it.reyboz.conferencecompanion.utils.DateUtils;
 
 /**
  * Here comes the badass SQL.
@@ -64,8 +62,8 @@ public class DatabaseManager {
 	private Context context;
 	private DatabaseHelper helper;
 
+	private Conference cachedConference = null;
 	private List<Day> cachedDays;
-	private int year = -1;
 
 	public static void init(Context context) {
 		if (instance == null) {
@@ -273,7 +271,7 @@ public class DatabaseManager {
 			if (isComplete) {
 				// Clear cache
 				cachedDays = null;
-				year = -1;
+				cachedConference = null;
 				// Set last update time and server's last modified tag
 				SharedPreferencesCompat.EditorCompat.getInstance().apply(
 						getSharedPreferences().edit()
@@ -297,7 +295,7 @@ public class DatabaseManager {
 			db.setTransactionSuccessful();
 
 			cachedDays = null;
-			year = -1;
+			cachedConference = null;
 			SharedPreferencesCompat.EditorCompat.getInstance().apply(
 					getSharedPreferences().edit().remove(LAST_UPDATE_TIME_PREF)
 			);
@@ -323,7 +321,7 @@ public class DatabaseManager {
 	/**
 	 * Returns the cached days list or null. Can be safely called on the main thread without blocking it.
 	 *
-	 * @return
+	 * @return List<Day> or null
 	 */
 	public List<Day> getCachedDays() {
 		return cachedDays;
@@ -350,35 +348,30 @@ public class DatabaseManager {
 		}
 	}
 
-	public int getYear() {
+	/**
+	 * Returns the cached Conference object or null. Can be safely called on the main thread without blocking it.
+	 *
+	 * @return Conference or null
+	 */
+	public Conference getCachedConference() {
+		return cachedConference;
+	}
+
+	/**
+	 * Returns the Conference object. In case of a cache miss, this will probably block the main
+	 * thread, every single other thread, threads running on other people's phones, and cause a
+	 * traffic jam somewhere nearby.
+	 *
+	 * @return Conference
+	 */
+	public Conference getConference() {
 		// Try to get the cached value first
-		if (year != -1) {
-			return year;
+		if (cachedConference != null) {
+			return cachedConference;
 		}
 
-		Calendar cal = Calendar.getInstance(DateUtils.getBelgiumTimeZone(), Locale.US);
-
-		// Compute from cachedDays if available
-		if (cachedDays != null) {
-			if (cachedDays.size() > 0) {
-				cal.setTime(cachedDays.get(0).getDate());
-			}
-		} else {
-			// Perform a quick DB query to retrieve the time of the first day
-			Cursor cursor = helper.getReadableDatabase().query(DatabaseHelper.DAYS_TABLE_NAME, new String[]{"date"}, null, null, null, null,
-					"_index ASC LIMIT 1");
-			try {
-				if (cursor.moveToFirst()) {
-					cal.setTimeInMillis(cursor.getLong(0));
-				}
-			} finally {
-				cursor.close();
-			}
-		}
-
-		// If the calendar has not been set at this point, it will simply return the current year
-		year = cal.get(Calendar.YEAR);
-		return year;
+		// TODO: finish implementation
+		return null;
 	}
 
 	public Cursor getTracks(Day day) {
