@@ -458,8 +458,6 @@ public class DatabaseManager {
 	/**
 	 * Returns the events for a specified track.
 	 *
-	 * @param day
-	 * @param track
 	 * @return A cursor to Events
 	 */
 	public Cursor getEvents(Day day, Track track) {
@@ -487,7 +485,6 @@ public class DatabaseManager {
 	 * @param maxStartTime Maximum start time, or -1
 	 * @param minEndTime   Minimum end time, or -1
 	 * @param ascending    If true, order results from start time ascending, else order from start time descending
-	 * @return
 	 */
 	public Cursor getEvents(long minStartTime, long maxStartTime, long minEndTime, boolean ascending) {
 		ArrayList<String> selectionArgs = new ArrayList<>(3);
@@ -536,7 +533,6 @@ public class DatabaseManager {
 	/**
 	 * Returns the events presented by the specified person.
 	 *
-	 * @param person
 	 * @return A cursor to Events
 	 */
 	public Cursor getEvents(Person person) {
@@ -595,7 +591,6 @@ public class DatabaseManager {
 	 * Search through matching titles, subtitles, track names, person names. We need to use an union of 3 sub-queries because a "match" condition can not be
 	 * accompanied by other conditions in a "where" statement.
 	 *
-	 * @param query
 	 * @return A cursor to Events
 	 */
 	public Cursor getSearchResults(String query) {

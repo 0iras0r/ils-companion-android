@@ -95,6 +95,7 @@ public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 							if (isStartTag()) {
 
 								switch (parser.getName()) {
+									// TODO: handle standard format with time zone from frab
 									case "start":
 										String time = parser.nextText();
 										if (!TextUtils.isEmpty(time)) {
