@@ -66,9 +66,8 @@ public class ConferenceCompanionApi {
 			}
 
 			try {
-				// TODO: determine whether a miracle happens and this works, or not.
 				Pentabarf pentabarf = new PentabarfParser().parse(httpResult.inputStream);
-				//Iterable<Event> events = new EventsParser().parseForReal(httpResult.inputStream);
+				dbManager.storeConference(pentabarf.conference);
 				result = dbManager.storeSchedule(pentabarf.events, httpResult.lastModified);
 			} finally {
 				try {

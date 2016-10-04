@@ -68,6 +68,7 @@ import it.reyboz.conferencecompanion.fragments.LiveFragment;
 import it.reyboz.conferencecompanion.fragments.MapFragment;
 import it.reyboz.conferencecompanion.fragments.PersonsListFragment;
 import it.reyboz.conferencecompanion.fragments.TracksFragment;
+import it.reyboz.conferencecompanion.model.Conference;
 import it.reyboz.conferencecompanion.widgets.AdapterLinearLayout;
 
 /**
@@ -134,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 
 	private static final String LAST_UPDATE_DATE_FORMAT = "d MMM yyyy kk:mm:ss";
 
-
 	Handler handler;
 	private Toolbar toolbar;
 	ProgressBar progressBar;
@@ -195,6 +195,14 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 		}
 	};
 
+	private final BroadcastReceiver conferenceUpdatedReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			updateMainMenuName();
+		}
+	};
+
 	public static class DownloadScheduleReminderDialogFragment extends DialogFragment {
 
 		@NonNull
@@ -248,8 +256,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 		// Setup Main menu
 		mainMenu = findViewById(R.id.main_menu);
 
-		TextView mainMenuTitle = (TextView) mainMenu.findViewById(R.id.navigation_drawer_title);
-		mainMenuTitle.setText("asd"); // TODO: get this from xml
+		updateMainMenuName();
 
 		final AdapterLinearLayout sectionsList = (AdapterLinearLayout) findViewById(R.id.sections);
 		menuAdapter = new MainMenuAdapter(getLayoutInflater());
@@ -257,6 +264,8 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 		mainMenu.findViewById(R.id.settings).setOnClickListener(menuFooterClickListener);
 		mainMenu.findViewById(R.id.about).setOnClickListener(menuFooterClickListener);
 
+		// Could have used the same intent and receiver, but this makes more sense semantically (I hope)
+		LocalBroadcastManager.getInstance(this).registerReceiver(conferenceUpdatedReceiver, new IntentFilter(DatabaseManager.ACTION_CONFERENCE_UPDATED));
 		LocalBroadcastManager.getInstance(this).registerReceiver(scheduleRefreshedReceiver, new IntentFilter(DatabaseManager.ACTION_SCHEDULE_REFRESHED));
 
 		// Last update date, below the list
@@ -286,6 +295,17 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 			}
 		});
 		updateActionBar();
+	}
+
+	private void updateMainMenuName() {
+		TextView mainMenuTitle = (TextView) mainMenu.findViewById(R.id.navigation_drawer_title);
+		String shortName = DatabaseManager.getInstance().getConference().getShortName();
+		if(shortName == null) {
+			mainMenuTitle.setVisibility(View.GONE);
+		} else {
+			mainMenuTitle.setVisibility(View.VISIBLE);
+			mainMenuTitle.setText(shortName);
+		}
 	}
 
 	private void updateActionBar() {

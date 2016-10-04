@@ -49,7 +49,6 @@ import it.reyboz.conferencecompanion.db.DatabaseManager;
 import it.reyboz.conferencecompanion.loaders.BookmarkStatusLoader;
 import it.reyboz.conferencecompanion.loaders.LocalCacheLoader;
 import it.reyboz.conferencecompanion.model.Building;
-import it.reyboz.conferencecompanion.model.Conference;
 import it.reyboz.conferencecompanion.model.Event;
 import it.reyboz.conferencecompanion.model.Link;
 import it.reyboz.conferencecompanion.model.Person;
@@ -83,7 +82,6 @@ public class EventDetailsFragment extends Fragment {
 	private static final String ARG_EVENT = "event";
 
 	Event event;
-	Conference conference;
 	int personsCount = 1;
 	Boolean isBookmarked;
 	ViewHolder holder;
@@ -239,11 +237,11 @@ public class EventDetailsFragment extends Fragment {
 	}
 
 	private Intent getShareChooserIntent() {
+		// TODO: handle null from getShortName() and getHashtag()
 		return ShareCompat.IntentBuilder.from(getActivity())
-				// TODO: replace "asd" with some suitable method call.
-				.setSubject(String.format("%1$s (%2$s)", event.getTitle(), "asd"))
+				.setSubject(String.format("%1$s (%2$s)", event.getTitle(), DatabaseManager.getInstance().getConference().getShortName()))
 				.setType("text/plain")
-				.setText(String.format("%1$s %2$s %3$s", event.getTitle(), event.getUrl(), "asd"))
+				.setText(String.format("%1$s %2$s %3$s", event.getTitle(), event.getUrl(), DatabaseManager.getInstance().getConference().getHashtag()))
 				.setChooserTitle(R.string.share)
 				.createChooserIntent();
 	}

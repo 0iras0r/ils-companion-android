@@ -26,7 +26,6 @@ Licensed under the Apache License, version 2.0.
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- TODO: set this from xml in onCreate or similar place -->
             <TextView
                 android:id="@+id/navigation_drawer_title"
                 android:layout_width="match_parent"

@@ -32,6 +32,7 @@ public class Event implements Parcelable {
 	private String personsSummary;
 	private List<Person> persons; // Optional
 	private List<Link> links; // Optional
+	private Conference conference;
 
 	public Event() {
 	}
@@ -246,5 +247,13 @@ public class Event implements Parcelable {
 		personsSummary = in.readString();
 		persons = in.createTypedArrayList(Person.CREATOR);
 		links = in.createTypedArrayList(Link.CREATOR);
+	}
+
+	public Conference getConference() {
+		return conference;
+	}
+
+	public void setConference(Conference conference) {
+		this.conference = conference;
 	}
 }

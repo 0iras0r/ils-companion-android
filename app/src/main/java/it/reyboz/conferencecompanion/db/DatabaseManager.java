@@ -44,6 +44,7 @@ import it.reyboz.conferencecompanion.model.Track;
 public class DatabaseManager {
 
 	public static final String ACTION_SCHEDULE_REFRESHED = "it.reyboz.conferencecompanion.action.SCHEDULE_REFRESHED";
+	public static final String ACTION_CONFERENCE_UPDATED = "it.reyboz.conferencecompanion.action.CONFERENCE_UPDATED";
 	public static final String ACTION_ADD_BOOKMARK = "it.reyboz.conferencecompanion.action.ADD_BOOKMARK";
 	public static final String EXTRA_EVENT_ID = "event_id";
 	public static final String EXTRA_EVENT_START_TIME = "event_start";
@@ -56,6 +57,7 @@ public class DatabaseManager {
 	private static final String DB_PREFS_FILE = "database";
 	private static final String LAST_UPDATE_TIME_PREF = "last_update_time";
 	private static final String LAST_MODIFIED_TAG_PREF = "last_modified_tag";
+	private static final String CONFERENCE_DATA_MEMOIZED = "conference_data"; // well, it's memoization...
 
 	private static DatabaseManager instance;
 
@@ -84,6 +86,8 @@ public class DatabaseManager {
 
 	private static long queryNumEntries(SQLiteDatabase db, String table, String selection, String[] selectionArgs) {
 		Cursor cursor = db.query(table, COUNT_PROJECTION, selection, selectionArgs, null, null, null);
+		// stop Android Studio from doing an endless loop of "use resources" => "resources aren't supported for target SDK version" => "use resources"...
+		//noinspection TryFinallyCanBeTryWithResources
 		try {
 			cursor.moveToFirst();
 			return cursor.getLong(0);
@@ -132,7 +136,6 @@ public class DatabaseManager {
 	/**
 	 * Stores the schedule to the database.
 	 *
-	 * @param events
 	 * @return The number of events processed.
 	 */
 	public int storeSchedule(Iterable<Event> events, String lastModifiedTag) {
@@ -286,6 +289,22 @@ public class DatabaseManager {
 		}
 	}
 
+	/**
+	 * Store the Conference object on some kind of non-volatile storage (currently: where
+	 * SharedPreferences go), and in RAM too.
+     */
+	public void storeConference(Conference conference) {
+		SharedPreferencesCompat.EditorCompat.getInstance().apply(
+				getSharedPreferences().edit()
+					.putString(CONFERENCE_DATA_MEMOIZED, conference.serialize())
+		);
+
+		cachedConference = conference;
+		conference.confirmSaved();
+
+		// TODO: notify changes? Send broadcasts?
+	}
+
 	public void clearSchedule() {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		db.beginTransaction();
@@ -366,12 +385,18 @@ public class DatabaseManager {
 	 */
 	public Conference getConference() {
 		// Try to get the cached value first
-		if (cachedConference != null) {
+		if(cachedConference != null) {
 			return cachedConference;
 		}
 
-		// TODO: finish implementation
-		return null;
+		String serializedConferenceData = getSharedPreferences().getString(CONFERENCE_DATA_MEMOIZED, null);
+		if(serializedConferenceData == null) {
+			cachedConference = new Conference();
+		} else {
+			cachedConference = new Conference(serializedConferenceData);
+		}
+
+		return cachedConference;
 	}
 
 	public Cursor getTracks(Day day) {

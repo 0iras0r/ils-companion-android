@@ -9,8 +9,8 @@ import java.io.IOException;
 public class Conference {
 
     private Boolean Modified = false; // the "dirty bit", basically.
-    private String EventUrlFormat = "https://linuxdaytorino.org/2016/talk/%1$s/"; // TODO: get URL from xml
-    private String PersonUrlFormat = "https://linuxdaytorino.org/2016/user/%1$s/"; // TODO: get URL from xml
+    private String EventUrlFormat = "https://linuxdaytorino.org/2016/talk/%1$s/"; // TODO: place URL into xml (update Tagliatella and db schema)
+    private String PersonUrlFormat = "https://linuxdaytorino.org/2016/user/%1$s/";
     private String LongName = null;
     private String ShortName = null;
     private String Hashtag = null;
@@ -104,25 +104,29 @@ public class Conference {
         Hashtag = hashtag;
     }
 
-    public String serialize() {
+    public @NonNull String serialize() {
         ByteArrayOutputStream serialized = new ByteArrayOutputStream();
 
-        serializeStringInto(serialized, EventUrlFormat);
-        serializeStringInto(serialized, PersonUrlFormat);
-        serializeStringInto(serialized, LongName);
-        serializeStringInto(serialized, ShortName);
+        boolean success =
+        serializeStringInto(serialized, EventUrlFormat) &&
+        serializeStringInto(serialized, PersonUrlFormat) &&
+        serializeStringInto(serialized, LongName) &&
+        serializeStringInto(serialized, ShortName) &&
         serializeStringInto(serialized, Hashtag);
+
+        if(!success) {
+            // TODO: do something better.
+            throw new RuntimeException("Serialization failed (should never happen)!");
+        }
 
         return serialized.toString();
     }
 
-    private boolean serializeStringInto(ByteArrayOutputStream serialized, String s) {
-        if(s != null) {
-            try {
-                serialized.write(Base64.encode(s.getBytes(), Base64.NO_WRAP));
-            } catch(IOException e) {
-                return false;
-            }
+    private boolean serializeStringInto(ByteArrayOutputStream serialized, @NonNull String s) {
+        try {
+            serialized.write(Base64.encode(s.getBytes(), Base64.NO_WRAP));
+        } catch(IOException e) {
+            return false;
         }
         serialized.write(',');
         return true;
@@ -130,5 +134,9 @@ public class Conference {
 
     public Boolean getModified() {
         return Modified;
+    }
+
+    public void confirmSaved() {
+        Modified = false;
     }
 }
