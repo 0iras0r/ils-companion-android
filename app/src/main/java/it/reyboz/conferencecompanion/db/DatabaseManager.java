@@ -294,15 +294,16 @@ public class DatabaseManager {
 	 * SharedPreferences go), and in RAM too.
      */
 	public void storeConference(Conference conference) {
-		SharedPreferencesCompat.EditorCompat.getInstance().apply(
-				getSharedPreferences().edit()
-					.putString(CONFERENCE_DATA_MEMOIZED, conference.serialize())
-		);
+		if(conference.getModified()) {
+			SharedPreferencesCompat.EditorCompat.getInstance().apply(
+					getSharedPreferences().edit()
+							.putString(CONFERENCE_DATA_MEMOIZED, conference.serialize())
+			);
 
-		cachedConference = conference;
-		conference.confirmSaved();
-
-		// TODO: notify changes? Send broadcasts?
+			cachedConference = conference;
+			conference.confirmSaved();
+		}
+		LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(ACTION_CONFERENCE_UPDATED));
 	}
 
 	public void clearSchedule() {
