@@ -28,7 +28,6 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
 import android.text.style.ClickableSpan;
-import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,7 +47,6 @@ import it.reyboz.conferencecompanion.activities.PersonInfoActivity;
 import it.reyboz.conferencecompanion.db.DatabaseManager;
 import it.reyboz.conferencecompanion.loaders.BookmarkStatusLoader;
 import it.reyboz.conferencecompanion.loaders.LocalCacheLoader;
-import it.reyboz.conferencecompanion.model.Building;
 import it.reyboz.conferencecompanion.model.Event;
 import it.reyboz.conferencecompanion.model.Link;
 import it.reyboz.conferencecompanion.model.Person;
@@ -147,7 +145,8 @@ public class EventDetailsFragment extends Fragment {
 		((TextView) view.findViewById(R.id.time)).setText(text);
 		final String roomName = event.getRoomName();
 		TextView roomTextView = (TextView) view.findViewById(R.id.room);
-		Spannable roomText = new SpannableString(String.format("%1$s (Building %2$s)", roomName, Building.fromRoomName(roomName)));
+		//Spannable roomText = new SpannableString(String.format("%1$s (Building %2$s)", roomName, Building.fromRoomName(roomName)));
+		Spannable roomText = new SpannableString(String.format("%1$s", roomName));
 
 		// TODO: do we need this?
 		//final int roomImageResId = getResources().getIdentifier(StringUtils.roomNameToResourceName(roomName), "drawable", getActivity().getPackageName());
