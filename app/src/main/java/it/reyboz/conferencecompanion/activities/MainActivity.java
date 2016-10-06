@@ -18,6 +18,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -299,12 +300,22 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback 
 
 	private void updateMainMenuName() {
 		TextView mainMenuTitle = (TextView) mainMenu.findViewById(R.id.navigation_drawer_title);
-		String shortName = DatabaseManager.getInstance().getConference().getShortName();
-		if(shortName == null) {
+
+		Conference conference = DatabaseManager.getInstance().getConference();
+		String menuText = conference.getMenuText();
+
+		// XXX: some hardcoded numbers since there's apparently NO WAY to retrieve layout_width, and
+		// .getWidth() returns 0 as the MainMenu hasn't been rendered yet.
+		int fontSize = conference.getTextSize(Typeface.DEFAULT,
+				260 - mainMenuTitle.getPaddingLeft() - mainMenuTitle.getPaddingRight(),
+				128 - mainMenuTitle.getPaddingLeft() - mainMenuTitle.getPaddingRight(), 10, 72);
+
+		if(menuText == null) {
 			mainMenuTitle.setVisibility(View.GONE);
 		} else {
 			mainMenuTitle.setVisibility(View.VISIBLE);
-			mainMenuTitle.setText(shortName);
+			mainMenuTitle.setTextSize(fontSize);
+			mainMenuTitle.setText(menuText);
 		}
 	}
 

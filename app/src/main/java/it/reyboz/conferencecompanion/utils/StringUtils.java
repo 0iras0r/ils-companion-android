@@ -163,15 +163,19 @@ public class StringUtils {
      * @return maximum text width that fits, or rangeMin if none fits.
      */
 	public static int textFitsMax(String text, Typeface typeface, int maxWidth, int maxHeight, int rangeMin, int rangeMax) {
-		if(rangeMin >= rangeMax) {
+		int dist = rangeMax - rangeMin;
+		// rangeMin is assumed to always fit
+		if(dist <= 0) {
 			return rangeMin;
+		} else if(dist == 1) {
+			if(textFits(text, rangeMax, typeface, maxWidth, maxHeight)) {
+				return rangeMax;
+			} else {
+				return rangeMin;
+			}
 		}
 
 		int half = (rangeMin + rangeMax) / 2;
-
-		if(half == rangeMin) {
-			return rangeMin;
-		}
 
 		// Yay recursion!
 		if(textFits(text, half, typeface, maxWidth, maxHeight)) {

@@ -1,19 +1,26 @@
 package it.reyboz.conferencecompanion.model;
 
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import it.reyboz.conferencecompanion.utils.StringUtils;
+
 public class Conference {
 
-    private Boolean Modified = false; // the "dirty bit", basically.
+    private boolean Modified = false; // the "dirty bit", basically.
+    private boolean textSizeNeedsRecalculation = true;
+
     private String EventUrlFormat = "https://linuxdaytorino.org/2016/talk/%1$s/"; // TODO: place URL into xml (update Tagliatella and db schema)
     private String PersonUrlFormat = "https://linuxdaytorino.org/2016/user/%1$s/";
     private String LongName = null;
     private String ShortName = null;
     private String Hashtag = null;
+    private Integer textSize = 11; // leave something as default, here. Don't set to null!
     // TODO: map URL?
 
     public Conference() {
@@ -26,7 +33,16 @@ public class Conference {
 
     private void deserializeAll(@NonNull String serialized) {
         String[] pieces = serialized.split(",");
+
+        // notice the "breakless" switch
         switch(pieces.length) {
+            case 6:
+                try {
+                    textSize = pieces[5].length() > 0 ? Integer.parseInt(deserialize(pieces[4])) : textSize;
+                    textSizeNeedsRecalculation = false;
+                } catch(NumberFormatException ignored) {
+                    // Leave the default
+                }
             case 5:
                 Hashtag = pieces[4].length() > 0 ? deserialize(pieces[4]) : Hashtag;
             case 4:
@@ -68,6 +84,7 @@ public class Conference {
 
     public void setLongName(String longName) {
         Modified = true;
+        textSizeNeedsRecalculation = true;
         LongName = longName;
     }
 
@@ -77,6 +94,7 @@ public class Conference {
 
     public void setShortName(String shortName) {
         Modified = true;
+        textSizeNeedsRecalculation = true;
         ShortName = shortName;
     }
 
@@ -91,8 +109,7 @@ public class Conference {
      * @param acronym the acronym field from the "Pentabarf" XML file
      */
     public void setAcronym(String acronym) {
-        Modified = true;
-        ShortName = acronym.toUpperCase();
+        setShortName(acronym.toUpperCase());
     }
 
     public String getHashtag() {
@@ -112,7 +129,8 @@ public class Conference {
         serializeStringInto(serialized, PersonUrlFormat) &&
         serializeStringInto(serialized, LongName) &&
         serializeStringInto(serialized, ShortName) &&
-        serializeStringInto(serialized, Hashtag);
+        serializeStringInto(serialized, Hashtag) &&
+        serializeStringInto(serialized, textSize.toString());
 
         if(!success) {
             // TODO: do something better.
@@ -122,11 +140,13 @@ public class Conference {
         return serialized.toString();
     }
 
-    private boolean serializeStringInto(ByteArrayOutputStream serialized, @NonNull String s) {
-        try {
-            serialized.write(Base64.encode(s.getBytes(), Base64.NO_WRAP));
-        } catch(IOException e) {
-            return false;
+    private boolean serializeStringInto(ByteArrayOutputStream serialized, @Nullable String s) {
+        if(s != null) {
+            try {
+                serialized.write(Base64.encode(s.getBytes(), Base64.NO_WRAP));
+            } catch(IOException e) {
+                return false;
+            }
         }
         serialized.write(',');
         return true;
@@ -134,6 +154,42 @@ public class Conference {
 
     public Boolean getModified() {
         return Modified;
+    }
+
+    private void updateTextSize(Typeface typeface, int boxWidth, int boxHeight, int rangeMin, int rangeMax) {
+        int result;
+        String menuText = getMenuText();
+
+        if(menuText != null) {
+
+            result = StringUtils.textFitsMax(menuText, typeface, boxWidth, boxHeight, rangeMin, rangeMax);
+            textSize = result;
+        }
+
+        textSizeNeedsRecalculation = false;
+    }
+
+    public int getTextSize(Typeface typeface, int boxWidth, int boxHeight, int rangeMin, int rangeMax) {
+        if(textSizeNeedsRecalculation) {
+            updateTextSize(typeface, boxWidth, boxHeight, rangeMin, rangeMax);
+        }
+
+        return textSize;
+    }
+
+    /**
+     * Exactly what it says on the tin.
+     *
+     * @return text to be used in main menu (short name or long name), or null
+     */
+    public String getMenuText() {
+        String shortName = getShortName();
+
+        if(shortName == null) {
+            return getLongName();
+        } else {
+            return shortName;
+        }
     }
 
     public void confirmSaved() {
