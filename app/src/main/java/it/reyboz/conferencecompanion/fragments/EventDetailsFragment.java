@@ -148,19 +148,21 @@ public class EventDetailsFragment extends Fragment {
 		final String roomName = event.getRoomName();
 		TextView roomTextView = (TextView) view.findViewById(R.id.room);
 		Spannable roomText = new SpannableString(String.format("%1$s (Building %2$s)", roomName, Building.fromRoomName(roomName)));
-		final int roomImageResId = getResources().getIdentifier(StringUtils.roomNameToResourceName(roomName), "drawable", getActivity().getPackageName());
-		// If the room image exists, make the room text clickable to display it
-		if (roomImageResId != 0) {
-			roomText.setSpan(new UnderlineSpan(), 0, roomText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			roomTextView.setOnClickListener(new View.OnClickListener() {
 
-				@Override
-				public void onClick(View view) {
-					RoomImageDialogFragment.newInstance(roomName, roomImageResId).show(getFragmentManager());
-				}
-			});
-			roomTextView.setFocusable(true);
-		}
+		// TODO: do we need this?
+		//final int roomImageResId = getResources().getIdentifier(StringUtils.roomNameToResourceName(roomName), "drawable", getActivity().getPackageName());
+		// If the room image exists, make the room text clickable to display it
+		//if (roomImageResId != 0) {
+		//	roomText.setSpan(new UnderlineSpan(), 0, roomText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		//	roomTextView.setOnClickListener(new View.OnClickListener() {
+
+		//		@Override
+		//		public void onClick(View view) {
+		//			RoomImageDialogFragment.newInstance(roomName, roomImageResId).show(getFragmentManager());
+		//		}
+		//	});
+		//	roomTextView.setFocusable(true);
+		//}
 		roomTextView.setText(roomText);
 
 		textView = (TextView) view.findViewById(R.id.abstract_text);
