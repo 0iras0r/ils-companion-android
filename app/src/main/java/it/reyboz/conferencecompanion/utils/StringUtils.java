@@ -21,7 +21,7 @@ public class StringUtils {
 			+ "AaAaAaCcCcCcCcDd" + "DdEeEeEeEeEeGgGg" + "GgGgHhHhIiIiIiIi" + "IiJjJjKkkLlLlLlL" + "lLlNnNnNnnNnOoOo" + "OoOoRrRrRrSsSsSs" + "SsTtTtTtUuUuUuUu"
 			+ "UuUuWwYyYZzZzZzF";
 
-	private static final String ROOM_DRAWABLE_PREFIX = "room_";
+	//private static final String ROOM_DRAWABLE_PREFIX = "room_";
 
 	/**
 	 * Returns string without diacritics - 7 bit approximation.
@@ -71,9 +71,6 @@ public class StringUtils {
 
 	/**
 	 * Removes all non-alphanumeric chars at the beginning and end of source.
-	 * 
-	 * @param source
-	 * @return
 	 */
 	private static String trimNonAlpha(String source) {
 		int st = 0;
@@ -90,10 +87,8 @@ public class StringUtils {
 
 	/**
 	 * Transforms a name to a slug identifier to be used in a FOSDEM URL.
-	 * 
-	 * @param source
+	 *
 	 * @deprecated read slugs from xml instead
-	 * @return
 	 */
 	public static String toSlug(String source) {
 		// TODO: read slugs from xml instead
@@ -109,29 +104,29 @@ public class StringUtils {
 		return (pos < source.length()) ? source.subSequence(0, pos) : source;
 	}
 
-	/**
-	 * Converts a room name to a local drawable resource name, by stripping non-alpha chars and converting to lower case. Any letter following a digit will be
-	 * ignored, along with the rest of the string.
-	 * 
-	 * @return
-	 */
-	public static String roomNameToResourceName(String roomName) {
-		StringBuilder builder = new StringBuilder(ROOM_DRAWABLE_PREFIX.length() + roomName.length());
-		builder.append(ROOM_DRAWABLE_PREFIX);
-		int size = roomName.length();
-		boolean lastDigit = false;
-		for (int i = 0; i < size; ++i) {
-			char c = roomName.charAt(i);
-			if (Character.isLetter(c)) {
-				if (lastDigit) {
-					break;
-				}
-				builder.append(Character.toLowerCase(c));
-			} else if (Character.isDigit(c)) {
-				builder.append(c);
-				lastDigit = true;
-			}
-		}
-		return builder.toString();
-	}
+//	/**
+//	 * Converts a room name to a local drawable resource name, by stripping non-alpha chars and converting to lower case. Any letter following a digit will be
+//	 * ignored, along with the rest of the string.
+//	 *
+//	 * @return
+//	 */
+//	public static String roomNameToResourceName(String roomName) {
+//		StringBuilder builder = new StringBuilder(ROOM_DRAWABLE_PREFIX.length() + roomName.length());
+//		builder.append(ROOM_DRAWABLE_PREFIX);
+//		int size = roomName.length();
+//		boolean lastDigit = false;
+//		for (int i = 0; i < size; ++i) {
+//			char c = roomName.charAt(i);
+//			if (Character.isLetter(c)) {
+//				if (lastDigit) {
+//					break;
+//				}
+//				builder.append(Character.toLowerCase(c));
+//			} else if (Character.isDigit(c)) {
+//				builder.append(c);
+//				lastDigit = true;
+//			}
+//		}
+//		return builder.toString();
+//	}
 }
