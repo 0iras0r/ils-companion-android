@@ -6,6 +6,10 @@
 
 package it.reyboz.conferencecompanion.utils;
 
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+
 import java.util.Locale;
 
 /**
@@ -129,4 +133,51 @@ public class StringUtils {
 //		}
 //		return builder.toString();
 //	}
+
+	/**
+	 * Calculate the displayed text height\width in some unknown unit (dp, maybe?) and check if it
+	 * fits inside a bounding box.
+	 * https://stackoverflow.com/a/26975371
+	 */
+	public static boolean textFits(String text, int fontSize, Typeface typeface, int maxWidth, int maxHeight) {
+		Paint paint = new Paint();
+		Rect rectangle = new Rect();
+
+		paint.setTypeface(typeface);
+		paint.setTextSize(fontSize);
+
+		paint.getTextBounds(text, 0, text.length(), rectangle);
+
+		return rectangle.width() <= maxWidth && rectangle.height() <= maxHeight;
+	}
+
+	/**
+	 * Try to fit text inside a bounding box. Complexity should be O(log n), although even O(n^2)
+	 * would have been negligible in the real world.
+	 *
+	 * @see #textFits
+	 * @param maxWidth width of the bounding box (in dp?)
+	 * @param maxHeight height of the bounding box (in dp?)
+	 * @param rangeMin lowest width to try (in whatever unit font sizes are specified)
+     * @param rangeMax highest width to try (in whatever unit font sizes are specified)
+     * @return maximum text width that fits, or rangeMin if none fits.
+     */
+	public static int textFitsMax(String text, Typeface typeface, int maxWidth, int maxHeight, int rangeMin, int rangeMax) {
+		if(rangeMin >= rangeMax) {
+			return rangeMin;
+		}
+
+		int half = (rangeMin + rangeMax) / 2;
+
+		if(half == rangeMin) {
+			return rangeMin;
+		}
+
+		// Yay recursion!
+		if(textFits(text, half, typeface, maxWidth, maxHeight)) {
+			return textFitsMax(text, typeface, maxWidth, maxHeight, half, rangeMax);
+		} else {
+			return textFitsMax(text, typeface, maxWidth, maxHeight, rangeMin, half-1);
+		}
+	}
 }
