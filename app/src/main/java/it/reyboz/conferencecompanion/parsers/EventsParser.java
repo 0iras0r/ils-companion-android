@@ -112,6 +112,7 @@ public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 											Date fullDateTime = DateUtils.parseLongFormat(timeWithTimeZone);
 											if(fullDateTime != null) {
 												event.setStartTime(fullDateTime);
+												calendar.setTime(fullDateTime);
 												foundFullDateTime = true;
 											}
 										}
