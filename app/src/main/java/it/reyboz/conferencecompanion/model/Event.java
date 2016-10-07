@@ -12,9 +12,7 @@ import android.text.TextUtils;
 
 import java.util.Date;
 import java.util.List;
-
-import it.reyboz.conferencecompanion.api.ConferenceCompanionUrls;
-import it.reyboz.conferencecompanion.db.DatabaseManager;
+import java.util.Locale;
 
 public class Event implements Parcelable {
 
@@ -32,7 +30,6 @@ public class Event implements Parcelable {
 	private String personsSummary;
 	private List<Person> persons; // Optional
 	private List<Link> links; // Optional
-	private Conference conference;
 
 	public Event() {
 	}
@@ -99,8 +96,8 @@ public class Event implements Parcelable {
 		this.slug = slug;
 	}
 
-	public String getUrl() {
-		return ConferenceCompanionUrls.getEvent(slug, DatabaseManager.getInstance().getConference());
+	public String getUrl(Conference conference) {
+		return String.format(Locale.US, conference.getEventUrlFormat(), getSlug());
 	}
 
 	public String getTitle() {
@@ -249,11 +246,4 @@ public class Event implements Parcelable {
 		links = in.createTypedArrayList(Link.CREATOR);
 	}
 
-	public Conference getConference() {
-		return conference;
-	}
-
-	public void setConference(Conference conference) {
-		this.conference = conference;
-	}
 }

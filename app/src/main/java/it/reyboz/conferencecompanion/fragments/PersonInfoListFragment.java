@@ -62,7 +62,7 @@ public class PersonInfoListFragment extends SmoothListFragment implements Loader
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.more_info:
-				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(person.getUrl()));
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(person.getUrl(DatabaseManager.getInstance().getConference())));
 				startActivity(intent);
 				return true;
 		}

@@ -15,8 +15,8 @@ public class Conference {
     private boolean Modified = false; // the "dirty bit", basically.
     private boolean textSizeNeedsRecalculation = true;
 
-    private String EventUrlFormat = "https://linuxdaytorino.org/2016/talk/%1$s/"; // TODO: place URL into xml (update Tagliatella and db schema)
-    private String PersonUrlFormat = "https://linuxdaytorino.org/2016/user/%1$s/";
+    private String EventUrlFormat = "https://linuxdaytorino.org/2016/talk/%1$s"; // TODO: place URL into xml (update Tagliatella and db schema)
+    private String PersonUrlFormat = "https://linuxdaytorino.org/2016/user/%1$s";
     private String LongName = null;
     private String ShortName = null;
     private String Hashtag = null;
@@ -92,10 +92,16 @@ public class Conference {
         return ShortName;
     }
 
-    public void setShortName(String shortName) {
+    public void setShortName(@NonNull String shortName) {
         Modified = true;
         textSizeNeedsRecalculation = true;
         ShortName = shortName;
+
+        // Might turn out pointless since the hashtag may be somewhere in the XML, but setting this
+        // in a setter makes more sense than in getHashtag()...
+        if(getHashtag() == null) {
+            setHashtag("#" + shortName.replace(" ", ""));
+        }
     }
 
     /**

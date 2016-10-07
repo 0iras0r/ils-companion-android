@@ -47,6 +47,7 @@ import it.reyboz.conferencecompanion.activities.PersonInfoActivity;
 import it.reyboz.conferencecompanion.db.DatabaseManager;
 import it.reyboz.conferencecompanion.loaders.BookmarkStatusLoader;
 import it.reyboz.conferencecompanion.loaders.LocalCacheLoader;
+import it.reyboz.conferencecompanion.model.Conference;
 import it.reyboz.conferencecompanion.model.Event;
 import it.reyboz.conferencecompanion.model.Link;
 import it.reyboz.conferencecompanion.model.Person;
@@ -238,11 +239,14 @@ public class EventDetailsFragment extends Fragment {
 	}
 
 	private Intent getShareChooserIntent() {
-		// TODO: handle null from getShortName() and getHashtag()
+		Conference conference = DatabaseManager.getInstance().getConference();
+		String shortName = conference.getShortName();
+		String hashtag = conference.getHashtag();
+
 		return ShareCompat.IntentBuilder.from(getActivity())
-				.setSubject(String.format("%1$s (%2$s)", event.getTitle(), DatabaseManager.getInstance().getConference().getShortName()))
+				.setSubject(String.format("%1$s%2$s", event.getTitle(), shortName == null ? "" : " (" + shortName + ")"))
 				.setType("text/plain")
-				.setText(String.format("%1$s %2$s %3$s", event.getTitle(), event.getUrl(), DatabaseManager.getInstance().getConference().getHashtag()))
+				.setText(String.format("%1$s %2$s %3$s", event.getTitle(), event.getUrl(conference), hashtag == null ? "" : hashtag))
 				.setChooserTitle(R.string.share)
 				.createChooserIntent();
 	}

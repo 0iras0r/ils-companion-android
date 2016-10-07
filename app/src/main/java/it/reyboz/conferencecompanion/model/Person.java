@@ -6,12 +6,12 @@
 
 package it.reyboz.conferencecompanion.model;
 
-import it.reyboz.conferencecompanion.api.ConferenceCompanionUrls;
-import it.reyboz.conferencecompanion.db.DatabaseManager;
 import it.reyboz.conferencecompanion.utils.StringUtils;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+
+import java.util.Locale;
 
 public class Person implements Parcelable {
 
@@ -38,8 +38,8 @@ public class Person implements Parcelable {
 		this.name = name;
 	}
 
-	public String getUrl() {
-		return ConferenceCompanionUrls.getPerson(getSlug(), DatabaseManager.getInstance().getConference());
+	public String getUrl(Conference conference) {
+		return String.format(Locale.US, conference.getPersonUrlFormat(), getSlug());
 	}
 
 	public String getSlug() {
