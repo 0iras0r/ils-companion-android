@@ -85,7 +85,7 @@ public abstract class AbstractPullParser<T> implements Parser<T> {
 
 	/**
 	 * If you don't want to raise a NullPointerException just by looking at the code, don't call
-	 * this directly, use parseForReal() instead.
+	 * this directly, use parse() instead.
 	 *
 	 * @param parser XmlPullParser which is guaranteed to exist, by now (hopefully)
 	 * @return the stuff you've extracted from the xml by the almighty mean of parsing things
