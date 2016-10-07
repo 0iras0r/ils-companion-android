@@ -12,6 +12,7 @@
     <string name="update_events_db">Update events database</string>
     <string name="events_download_up_to_date">Database is already up-to-date</string>
     <string name="events_download_empty">No new events found</string>
+    <string name="day_number">Day %1$d (%2$s)</string>
 
     <plurals name="events_download_completed">
         <item quantity="one">Completed downloading %1$d event</item>

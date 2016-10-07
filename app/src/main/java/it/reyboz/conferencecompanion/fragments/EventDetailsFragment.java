@@ -138,7 +138,7 @@ public class EventDetailsFragment extends Fragment {
 		((TextView) view.findViewById(R.id.track)).setText(event.getTrack().getName());
 		Date startTime = event.getStartTime();
 		Date endTime = event.getEndTime();
-		DateFormat timeDateFormat = DateUtils.getTimeDateFormat(getActivity());
+		DateFormat timeDateFormat = DateFormat.getDateTimeInstance();
 		text = String.format("%1$s, %2$s ― %3$s",
 				event.getDay().toString(),
 				(startTime != null) ? timeDateFormat.format(startTime) : "?",

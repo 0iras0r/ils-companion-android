@@ -6,18 +6,13 @@
 
 package it.reyboz.conferencecompanion.model;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import it.reyboz.conferencecompanion.utils.DateUtils;
 
 public class Day implements Parcelable {
-
-	private static final DateFormat DAY_DATE_FORMAT = DateUtils.withUTCTimeZone(new SimpleDateFormat("EEEE", Locale.US));
 
 	private int index;
 	private Date date;
@@ -41,17 +36,8 @@ public class Day implements Parcelable {
 		this.date = date;
 	}
 
-	public String getName() {
-		return String.format(Locale.US, "Day %1$d (%2$s)", index, DAY_DATE_FORMAT.format(date));
-	}
-
 	public String getShortName() {
-		return DAY_DATE_FORMAT.format(date);
-	}
-
-	@Override
-	public String toString() {
-		return getName();
+		return DateUtils.getDayName(date);
 	}
 
 	@Override

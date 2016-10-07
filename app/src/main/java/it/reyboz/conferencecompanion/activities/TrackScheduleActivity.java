@@ -65,7 +65,7 @@ public class TrackScheduleActivity extends AppCompatActivity
 		ActionBar bar = getSupportActionBar();
 		bar.setDisplayHomeAsUpEnabled(true);
 		bar.setTitle(track.toString());
-		bar.setSubtitle(day.toString());
+		bar.setSubtitle(getString(R.string.day_number, day.getIndex(), day.getShortName()));
 
 		isTabletLandscape = getResources().getBoolean(R.bool.tablet_landscape);
 

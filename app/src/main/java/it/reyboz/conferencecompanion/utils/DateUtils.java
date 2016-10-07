@@ -6,34 +6,47 @@
 
 package it.reyboz.conferencecompanion.utils;
 
-import android.content.Context;
+import android.support.annotation.Nullable;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class DateUtils {
 
-	private static final TimeZone BELGIUM_TIME_ZONE = TimeZone.getTimeZone("GMT+1");
+	private static final TimeZone UTC_TIME_ZONE = TimeZone.getTimeZone("UTC");
+	private static final DateFormat shortFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+	private static final DateFormat longFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:MM:ssZZZZZ", Locale.US);
+	private static final DateFormat dayName = new SimpleDateFormat("EEEE", Locale.getDefault());
 
-	/**
-	 * Don't use this.
-	 *
-	 * @return Belgium time zone, actually
-	 * @deprecated
-     */
-	public static TimeZone getUTCTimeZone() {
-		return BELGIUM_TIME_ZONE;
+	public static @Nullable	Date parseShortFormatFromTimezone(String date, TimeZone tz) {
+		try {
+			shortFormat.setTimeZone(tz);
+			return shortFormat.parse(date);
+		} catch(ParseException e) {
+			return null;
+		}
 	}
 
-	/**
-	 * @deprecated
-	 */
-	public static DateFormat withUTCTimeZone(DateFormat format) {
-		format.setTimeZone(BELGIUM_TIME_ZONE);
-		return format;
+	public static Date parseShortFormatUTC(String date) {
+		return parseShortFormatFromTimezone(date, UTC_TIME_ZONE);
 	}
 
-	public static DateFormat getTimeDateFormat(Context context) {
-		return withUTCTimeZone(android.text.format.DateFormat.getTimeFormat(context));
+	public static @Nullable Date parseLongFormat(String date) {
+		try {
+			return longFormat.parse(date);
+		} catch(ParseException e) {
+			return null;
+		}
+	}
+
+	public static String getDayName(Date date) {
+		// replace with this in year 2162, when we will finally be able to target APIs in the
+		// two-digits range (18 in this case):
+		//return android.text.format.DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEEE")
+		return dayName.format(date);
 	}
 }

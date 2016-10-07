@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,10 +32,8 @@ import it.reyboz.conferencecompanion.utils.DateUtils;
  */
 public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 
-	private final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-
 	// Calendar used to compute the events time
-	private final Calendar calendar = Calendar.getInstance(DateUtils.getUTCTimeZone(), Locale.US);
+	private final Calendar calendar = Calendar.getInstance(Locale.US);
 
 	private Day currentDay;
 	private String currentRoom;
@@ -67,7 +66,18 @@ public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 		// parseForReal() is called when a start tag for <day> has been found
 		currentDay = new Day();
 		currentDay.setIndex(Integer.parseInt(parser.getAttributeValue(null, "index")));
-		currentDay.setDate(DATE_FORMAT.parse(parser.getAttributeValue(null, "date")));
+
+		// the "start" attribute contains a time zone, perfect, we're in the 21st century,
+		// that should be the norm, let's read it! Frab should have this attribute as default.
+		Date start = DateUtils.parseLongFormat(parser.getAttributeValue(null, "date"));
+		if(start == null) {
+			// if that's unavailable or in a new and yet undiscovered format, use whatever time zone
+			// the user's currently in, and PRAY that they're not on the other side of the world
+			// from the conference location.
+			currentDay.setDate(DateUtils.parseShortFormatLocal(parser.getAttributeValue(null, "date")));
+		} else {
+			currentDay.setDate(start);
+		}
 
 		while (!isNextEndTag("day")) {
 			if (isStartTag()) {

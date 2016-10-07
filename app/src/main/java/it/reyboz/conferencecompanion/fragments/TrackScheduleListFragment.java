@@ -32,7 +32,6 @@ import it.reyboz.conferencecompanion.loaders.TrackScheduleLoader;
 import it.reyboz.conferencecompanion.model.Day;
 import it.reyboz.conferencecompanion.model.Event;
 import it.reyboz.conferencecompanion.model.Track;
-import it.reyboz.conferencecompanion.utils.DateUtils;
 
 public class TrackScheduleListFragment extends SmoothListFragment implements Handler.Callback, LoaderCallbacks<Cursor> {
 
@@ -253,7 +252,7 @@ public class TrackScheduleListFragment extends SmoothListFragment implements Han
 		public TrackScheduleAdapter(Context context) {
 			super(context, null, 0);
 			inflater = LayoutInflater.from(context);
-			timeDateFormat = DateUtils.getTimeDateFormat(context);
+			timeDateFormat = DateFormat.getDateTimeInstance();
 			timeBackgroundColor = ContextCompat.getColor(context, R.color.schedule_time_background);
 			timeRunningBackgroundColor = ContextCompat.getColor(context, R.color.schedule_time_running_background);
 
