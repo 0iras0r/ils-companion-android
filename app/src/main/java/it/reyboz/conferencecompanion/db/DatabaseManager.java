@@ -173,7 +173,7 @@ public class DatabaseManager {
 					trackInsertStatement.clearBindings();
 					trackInsertStatement.bindLong(1, nextTrackId);
 					bindString(trackInsertStatement, 2, track.getName());
-					bindString(trackInsertStatement, 3, track.getType().name());
+					bindString(trackInsertStatement, 3, track.getType());
 					if (trackInsertStatement.executeInsert() != -1L) {
 						tracks.put(track, trackId);
 					}
@@ -418,7 +418,7 @@ public class DatabaseManager {
 			track = new Track();
 		}
 		track.setName(cursor.getString(1));
-		track.setType(Enum.valueOf(Track.Type.class, cursor.getString(2)));
+		track.setType(cursor.getString(2));
 
 		return track;
 	}
@@ -463,7 +463,7 @@ public class DatabaseManager {
 	 * @return A cursor to Events
 	 */
 	public Cursor getEvents(Day day, Track track) {
-		String[] selectionArgs = new String[]{String.valueOf(day.getIndex()), track.getName(), track.getType().name()};
+		String[] selectionArgs = new String[]{String.valueOf(day.getIndex()), track.getName(), track.getType()};
 		Cursor cursor = helper.getReadableDatabase().rawQuery(
 				"SELECT e.id AS _id, e.start_time, e.end_time, e.room_name, e.slug, et.title, et.subtitle, e.abstract, e.description, GROUP_CONCAT(p.name, ', '), e.day_index, d.date, t.name, t.type, b.event_id"
 						+ " FROM " + DatabaseHelper.EVENTS_TABLE_NAME + " e"
@@ -720,7 +720,7 @@ public class DatabaseManager {
 		day.setIndex(cursor.getInt(10));
 
 		track.setName(cursor.getString(12));
-		track.setType(Enum.valueOf(Track.Type.class, cursor.getString(13)));
+		track.setType(cursor.getString(13));
 
 		return event;
 	}

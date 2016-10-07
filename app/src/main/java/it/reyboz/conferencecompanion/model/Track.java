@@ -8,39 +8,16 @@ package it.reyboz.conferencecompanion.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.StringRes;
-
-import it.reyboz.conferencecompanion.R;
 
 public class Track implements Parcelable {
 
-	public enum Type {
-		other(R.string.other),
-		keynote(R.string.keynote),
-		maintrack(R.string.main_track),
-		devroom(R.string.developer_room),
-		lightningtalk(R.string.lightning_talk),
-		certification(R.string.certification_exam);
-
-		private final int nameResId;
-
-		Type(@StringRes int nameResId) {
-			this.nameResId = nameResId;
-		}
-
-		@StringRes
-		public int getNameResId() {
-			return nameResId;
-		}
-	}
-
 	private String name;
-	private Type type;
+	private String type;
 
 	public Track() {
 	}
 
-	public Track(String name, Type type) {
+	public Track(String name, String type) {
 		this.name = name;
 		this.type = type;
 	}
@@ -53,11 +30,11 @@ public class Track implements Parcelable {
 		this.name = name;
 	}
 
-	public Type getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(Type type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -82,7 +59,7 @@ public class Track implements Parcelable {
 		if (obj == null)
 			return false;
 		Track other = (Track) obj;
-		return name.equals(other.name) && (type == other.type);
+		return name.equals(other.name) && type.equals(other.type);
 	}
 
 	@Override
@@ -93,7 +70,7 @@ public class Track implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel out, int flags) {
 		out.writeString(name);
-		out.writeInt(type.ordinal());
+		out.writeString(type);
 	}
 
 	public static final Parcelable.Creator<Track> CREATOR = new Parcelable.Creator<Track>() {
@@ -108,6 +85,6 @@ public class Track implements Parcelable {
 
 	Track(Parcel in) {
 		name = in.readString();
-		type = Type.values()[in.readInt()];
+		type = in.readString();
 	}
 }
