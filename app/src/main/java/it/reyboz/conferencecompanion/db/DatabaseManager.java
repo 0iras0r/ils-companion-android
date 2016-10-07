@@ -104,7 +104,7 @@ public class DatabaseManager {
 	private static final String EVENT_PERSON_INSERT_STATEMENT = "INSERT INTO " + DatabaseHelper.EVENTS_PERSONS_TABLE_NAME
 			+ " (event_id, person_id) VALUES (?, ?);";
 	// Ignore conflicts in case of existing person
-	private static final String PERSON_INSERT_STATEMENT = "INSERT OR IGNORE INTO " + DatabaseHelper.PERSONS_TABLE_NAME + " (rowid, name) VALUES (?, ?);";
+	private static final String PERSON_INSERT_STATEMENT = "INSERT OR IGNORE INTO " + DatabaseHelper.PERSONS_TABLE_NAME + " (rowid, name, slug) VALUES (?, ?, ?);";
 	private static final String LINK_INSERT_STATEMENT = "INSERT INTO " + DatabaseHelper.LINKS_TABLE_NAME + " (event_id, url, description) VALUES (?, ?, ?);";
 
 	private static void bindString(SQLiteStatement statement, int index, String value) {
@@ -226,6 +226,7 @@ public class DatabaseManager {
 						personInsertStatement.clearBindings();
 						personInsertStatement.bindLong(1, personId);
 						bindString(personInsertStatement, 2, person.getName());
+						bindString(personInsertStatement, 3, person.getSlug());
 						try {
 							personInsertStatement.executeInsert();
 						} catch (SQLiteConstraintException e) {
@@ -749,7 +750,7 @@ public class DatabaseManager {
 	 */
 	public Cursor getPersons() {
 		Cursor cursor = helper.getReadableDatabase().rawQuery(
-				"SELECT rowid AS _id, name"
+				"SELECT rowid AS _id, name, slug"
 						+ " FROM " + DatabaseHelper.PERSONS_TABLE_NAME
 						+ " ORDER BY name COLLATE NOCASE", null);
 		cursor.setNotificationUri(context.getContentResolver(), URI_EVENTS);
@@ -764,7 +765,7 @@ public class DatabaseManager {
 	public List<Person> getPersons(Event event) {
 		String[] selectionArgs = new String[]{String.valueOf(event.getId())};
 		Cursor cursor = helper.getReadableDatabase().rawQuery(
-				"SELECT p.rowid AS _id, p.name"
+				"SELECT p.rowid AS _id, p.name, p.slug"
 						+ " FROM " + DatabaseHelper.PERSONS_TABLE_NAME + " p"
 						+ " JOIN " + DatabaseHelper.EVENTS_PERSONS_TABLE_NAME + " ep ON p.rowid = ep.person_id"
 						+ " WHERE ep.event_id = ?", selectionArgs);
@@ -779,12 +780,13 @@ public class DatabaseManager {
 		}
 	}
 
-	public static Person toPerson(Cursor cursor, Person person) {
+	public static Person toPerson(Cursor cursor, Person person) { // TODO: place slug in DB
 		if (person == null) {
 			person = new Person();
 		}
 		person.setId(cursor.getLong(0));
 		person.setName(cursor.getString(1));
+		person.setSlug(cursor.getString(2));
 
 		return person;
 	}

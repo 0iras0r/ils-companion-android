@@ -138,6 +138,7 @@ public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 											if (isStartTag("person")) {
 												Person person = new Person();
 												person.setId(Long.parseLong(parser.getAttributeValue(null, "id")));
+												person.setSlug(parser.getAttributeValue(null, "slug"));
 												person.setName(parser.nextText());
 
 												persons.add(person);

@@ -25,12 +25,10 @@ public class ConferenceCompanionUrls {
 	}
 
 	public static String getEvent(String slug, Conference conference) {
-		// TODO: get slug from xml
 		return String.format(Locale.US, conference.getEventUrlFormat(), slug);
 	}
 
 	public static String getPerson(String slug, Conference conference) {
-		// TODO: get slug from xml
 		return String.format(Locale.US, conference.getPersonUrlFormat(), slug);
 	}
 }

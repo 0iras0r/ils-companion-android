@@ -11,11 +11,13 @@ import it.reyboz.conferencecompanion.db.DatabaseManager;
 import it.reyboz.conferencecompanion.utils.StringUtils;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 public class Person implements Parcelable {
 
 	private long id;
 	private String name;
+	private String slug = null;
 
 	public Person() {
 	}
@@ -37,7 +39,19 @@ public class Person implements Parcelable {
 	}
 
 	public String getUrl() {
-		return ConferenceCompanionUrls.getPerson(StringUtils.toSlug(name), DatabaseManager.getInstance().getConference());
+		return ConferenceCompanionUrls.getPerson(getSlug(), DatabaseManager.getInstance().getConference());
+	}
+
+	public String getSlug() {
+		if(slug == null) {
+			return StringUtils.toSlug(name);
+		} else {
+			return slug;
+		}
+	}
+
+	public void setSlug(@Nullable String slug) {
+		this.slug = slug;
 	}
 
 	@Override
@@ -71,6 +85,11 @@ public class Person implements Parcelable {
 	public void writeToParcel(Parcel out, int flags) {
 		out.writeLong(id);
 		out.writeString(name);
+		if(slug == null) {
+			out.writeString("");
+		} else {
+			out.writeString(slug);
+		}
 	}
 
 	public static final Parcelable.Creator<Person> CREATOR = new Parcelable.Creator<Person>() {
@@ -84,7 +103,13 @@ public class Person implements Parcelable {
 	};
 
 	Person(Parcel in) {
+		String slugOrEmpty;
+
 		id = in.readLong();
 		name = in.readString();
+		slugOrEmpty = in.readString();
+		if(!slugOrEmpty.equals("")) {
+			slug = slugOrEmpty;
+		}
 	}
 }

@@ -90,12 +90,9 @@ public class StringUtils {
 	}
 
 	/**
-	 * Transforms a name to a slug identifier to be used in a FOSDEM URL.
-	 *
-	 * @deprecated read slugs from xml instead
+	 * Transforms a name to a slug identifier to be used in a URL.
 	 */
 	public static String toSlug(String source) {
-		// TODO: read slugs from xml instead
 		return replaceNonAlphaGroups(trimNonAlpha(removeDiacritics(source)), '_').toLowerCase(Locale.US);
 	}
 

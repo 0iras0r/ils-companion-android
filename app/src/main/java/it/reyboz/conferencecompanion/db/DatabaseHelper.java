@@ -13,10 +13,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "conferencecompanion.sqlite";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	public static final String EVENTS_TABLE_NAME = "events";
 	public static final String EVENTS_TITLES_TABLE_NAME = "events_titles";
+	private static final String TEMPORARY_UPGRADE_TABLE_BECAUSE_FTS_DOESNT_SUPPORT_ADD_COLUMN_TABLE_NAME = "upgrade_tmp";
 	public static final String PERSONS_TABLE_NAME = "persons";
 	public static final String EVENTS_PERSONS_TABLE_NAME = "events_persons";
 	public static final String LINKS_TABLE_NAME = "links";
@@ -42,7 +43,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		database.execSQL("CREATE VIRTUAL TABLE " + EVENTS_TITLES_TABLE_NAME + " USING fts3(title TEXT, subtitle TEXT);");
 
 		// Persons
-		database.execSQL("CREATE VIRTUAL TABLE " + PERSONS_TABLE_NAME + " USING fts3(name TEXT);");
+		// indexing "slug" with FTS is a waste of space, but this seems to be the only sane way to
+		// add a column (FTS4 isn't supported for API < 11)
+		database.execSQL("CREATE VIRTUAL TABLE " + PERSONS_TABLE_NAME + " USING fts3(name TEXT, slug TEXT);");
 
 		// Events-to-Persons
 		database.execSQL("CREATE TABLE " + EVENTS_PERSONS_TABLE_NAME
@@ -66,6 +69,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
-		// Nothing to upgrade yet
+		if(oldVersion == 1) {
+			database.execSQL("ALTER TABLE " + PERSONS_TABLE_NAME + " RENAME TO " + TEMPORARY_UPGRADE_TABLE_BECAUSE_FTS_DOESNT_SUPPORT_ADD_COLUMN_TABLE_NAME);
+			database.execSQL("CREATE VIRTUAL TABLE " + PERSONS_TABLE_NAME + " USING fts3(name TEXT, slug TEXT);");
+			database.execSQL("INSERT INTO " + PERSONS_TABLE_NAME + " (name) SELECT name from " + TEMPORARY_UPGRADE_TABLE_BECAUSE_FTS_DOESNT_SUPPORT_ADD_COLUMN_TABLE_NAME + ";");
+			database.execSQL("DROP TABLE " + TEMPORARY_UPGRADE_TABLE_BECAUSE_FTS_DOESNT_SUPPORT_ADD_COLUMN_TABLE_NAME + ";");
+		}
 	}
 }
