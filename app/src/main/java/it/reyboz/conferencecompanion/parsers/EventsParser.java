@@ -72,8 +72,8 @@ public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 		Date start = DateUtils.parseLongFormat(parser.getAttributeValue(null, "date"));
 		if(start == null) {
 			// if that's unavailable or in a new and yet undiscovered format, use whatever time zone
-			// the user's currently in, and PRAY that they're not on the other side of the world
-			// from the conference location.
+			// the user is currently in and PRAY that everything else (especially calendar entries
+			// and alarms) don't catch fire in the process.
 			currentDay.setDate(DateUtils.parseShortFormatLocal(parser.getAttributeValue(null, "date")));
 		} else {
 			currentDay.setDate(start);
@@ -96,23 +96,34 @@ public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 						event.setPersons(persons);
 						List<Link> links = new ArrayList<>();
 						event.setLinks(links);
+						boolean foundFullDateTime = false;
 
 						String duration = null;
 						String trackName = "";
-						Track.Type trackType = Track.Type.other;
+						String trackType = "";
 
 						while (!isNextEndTag("event")) {
 							if (isStartTag()) {
 
 								switch (parser.getName()) {
-									// TODO: handle standard format with time zone from frab
+									case "date":
+										String timeWithTimeZone = parser.nextText();
+										if(!TextUtils.isEmpty(timeWithTimeZone)) {
+											Date fullDateTime = DateUtils.parseLongFormat(timeWithTimeZone);
+											if(fullDateTime != null) {
+												event.setStartTime(fullDateTime);
+												foundFullDateTime = true;
+											}
+										}
 									case "start":
-										String time = parser.nextText();
-										if (!TextUtils.isEmpty(time)) {
-											calendar.setTime(currentDay.getDate());
-											calendar.set(Calendar.HOUR_OF_DAY, getHours(time));
-											calendar.set(Calendar.MINUTE, getMinutes(time));
-											event.setStartTime(calendar.getTime());
+										if(!foundFullDateTime) {
+											String time = parser.nextText();
+											if (!TextUtils.isEmpty(time)) {
+												calendar.setTime(currentDay.getDate());
+												calendar.set(Calendar.HOUR_OF_DAY, getHours(time));
+												calendar.set(Calendar.MINUTE, getMinutes(time));
+												event.setStartTime(calendar.getTime());
+											}
 										}
 										break;
 									case "duration":
@@ -131,11 +142,7 @@ public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 										trackName = parser.nextText();
 										break;
 									case "type":
-										try {
-											trackType = Enum.valueOf(Track.Type.class, parser.nextText());
-										} catch (Exception e) {
-											// trackType will be "other"
-										}
+										trackType = parser.nextText();
 										break;
 									case "abstract":
 										event.setAbstractText(parser.nextText());
@@ -179,7 +186,7 @@ public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 							event.setEndTime(calendar.getTime());
 						}
 
-						if ((currentTrack == null) || !trackName.equals(currentTrack.getName()) || (trackType != currentTrack.getType())) {
+						if ((currentTrack == null) || !trackName.equals(currentTrack.getName()) || !trackType.equals("")) {
 							currentTrack = new Track(trackName, trackType);
 						}
 						event.setTrack(currentTrack);

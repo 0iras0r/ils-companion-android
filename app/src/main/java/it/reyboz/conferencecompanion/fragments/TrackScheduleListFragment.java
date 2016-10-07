@@ -252,7 +252,7 @@ public class TrackScheduleListFragment extends SmoothListFragment implements Han
 		public TrackScheduleAdapter(Context context) {
 			super(context, null, 0);
 			inflater = LayoutInflater.from(context);
-			timeDateFormat = DateFormat.getDateTimeInstance();
+			timeDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
 			timeBackgroundColor = ContextCompat.getColor(context, R.color.schedule_time_background);
 			timeRunningBackgroundColor = ContextCompat.getColor(context, R.color.schedule_time_running_background);
 

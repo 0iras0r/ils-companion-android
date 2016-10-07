@@ -14,7 +14,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
@@ -164,7 +164,7 @@ public class TracksFragment extends Fragment implements LoaderCallbacks<List<Day
 	public void onLoaderReset(Loader<List<Day>> loader) {
 	}
 
-	private static class DaysAdapter extends FragmentStatePagerAdapter {
+	private static class DaysAdapter extends FragmentPagerAdapter {
 
 		private List<Day> days;
 
@@ -191,7 +191,7 @@ public class TracksFragment extends Fragment implements LoaderCallbacks<List<Day
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return days.get(position).toString();
+			return days.get(position).getShortName();
 		}
 
 		@Override

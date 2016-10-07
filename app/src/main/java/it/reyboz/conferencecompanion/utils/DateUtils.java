@@ -35,7 +35,14 @@ public class DateUtils {
 		return parseShortFormatFromTimezone(date, UTC_TIME_ZONE);
 	}
 
+	public static Date parseShortFormatLocal(String date) {
+		return parseShortFormatFromTimezone(date, TimeZone.getDefault());
+	}
+
 	public static @Nullable Date parseLongFormat(String date) {
+		if(date == null) {
+			return null;
+		}
 		try {
 			return longFormat.parse(date);
 		} catch(ParseException e) {

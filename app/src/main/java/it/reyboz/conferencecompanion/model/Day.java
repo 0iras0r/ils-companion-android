@@ -10,6 +10,8 @@ import java.util.Date;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import it.reyboz.conferencecompanion.R;
 import it.reyboz.conferencecompanion.utils.DateUtils;
 
 public class Day implements Parcelable {
@@ -38,6 +40,14 @@ public class Day implements Parcelable {
 
 	public String getShortName() {
 		return DateUtils.getDayName(date);
+	}
+
+	@Override
+	public String toString() {
+		// There are adapter-fragment-loader-list-view things that absolutely need to call this, or
+		// a similar method, from a static contest (= forget using getString(), and getting a
+		// Context in there apparently causes a billion memory leaks, BECAUSE ANDROID)
+		return getShortName();
 	}
 
 	@Override
