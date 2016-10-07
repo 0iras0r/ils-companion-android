@@ -37,7 +37,7 @@ public class EventsAdapter extends CursorAdapter {
 	public EventsAdapter(Context context, boolean showDay) {
 		super(context, null, 0);
 		inflater = LayoutInflater.from(context);
-		timeDateFormat = DateFormat.getTimeInstance();
+		timeDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
 		this.showDay = showDay;
 	}
 
