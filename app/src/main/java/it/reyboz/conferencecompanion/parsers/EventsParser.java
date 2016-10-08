@@ -201,6 +201,7 @@ public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 						event.setTrack(theTrack);
 
 						events.add(event);
+						break;
 					default:
 						skipToEndTag();
 						break;
