@@ -7,13 +7,14 @@
 package it.reyboz.conferencecompanion.db;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "conferencecompanion.sqlite";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 
 	public static final String EVENTS_TABLE_NAME = "events";
 	public static final String EVENTS_TITLES_TABLE_NAME = "events_titles";
@@ -34,7 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		// Events
 		database.execSQL("CREATE TABLE "
 				+ EVENTS_TABLE_NAME
-				+ " (id INTEGER PRIMARY KEY, day_index INTEGER NOT NULL, start_time INTEGER, end_time INTEGER, room_name TEXT, slug TEXT, track_id INTEGER, abstract TEXT, description TEXT);");
+				+ " (id INTEGER PRIMARY KEY, day_index INTEGER NOT NULL, start_time INTEGER, end_time INTEGER, room_name TEXT, slug TEXT, track_id INTEGER, abstract TEXT, description TEXT, type TEXT);");
 		database.execSQL("CREATE INDEX event_day_index_idx ON " + EVENTS_TABLE_NAME + " (day_index)");
 		database.execSQL("CREATE INDEX event_start_time_idx ON " + EVENTS_TABLE_NAME + " (start_time)");
 		database.execSQL("CREATE INDEX event_end_time_idx ON " + EVENTS_TABLE_NAME + " (end_time)");
@@ -69,11 +70,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
-		if(oldVersion == 1) {
+		if(oldVersion <= 1) {
 			database.execSQL("ALTER TABLE " + PERSONS_TABLE_NAME + " RENAME TO " + TEMPORARY_UPGRADE_TABLE_BECAUSE_FTS_DOESNT_SUPPORT_ADD_COLUMN_TABLE_NAME);
 			database.execSQL("CREATE VIRTUAL TABLE " + PERSONS_TABLE_NAME + " USING fts3(name TEXT, slug TEXT);");
 			database.execSQL("INSERT INTO " + PERSONS_TABLE_NAME + " (name) SELECT name from " + TEMPORARY_UPGRADE_TABLE_BECAUSE_FTS_DOESNT_SUPPORT_ADD_COLUMN_TABLE_NAME + ";");
 			database.execSQL("DROP TABLE " + TEMPORARY_UPGRADE_TABLE_BECAUSE_FTS_DOESNT_SUPPORT_ADD_COLUMN_TABLE_NAME + ";");
+		}
+		if(oldVersion <= 2) {
+			// this will leave the new columns unpopulated, but ultimately it's not important, as
+			// database version 2 was never publicly released.
+			database.execSQL("ALTER TABLE " + EVENTS_TABLE_NAME + " ADD COLUMN type TEXT");
 		}
 	}
 }

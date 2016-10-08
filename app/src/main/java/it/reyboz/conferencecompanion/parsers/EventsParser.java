@@ -10,19 +10,20 @@ import android.text.TextUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import it.reyboz.conferencecompanion.model.Day;
 import it.reyboz.conferencecompanion.model.Event;
 import it.reyboz.conferencecompanion.model.Link;
 import it.reyboz.conferencecompanion.model.Person;
 import it.reyboz.conferencecompanion.model.Track;
+import it.reyboz.conferencecompanion.model.TrackWithArray;
 import it.reyboz.conferencecompanion.utils.DateUtils;
 
 /**
@@ -35,9 +36,8 @@ public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 	// Calendar used to compute the events time
 	private final Calendar calendar = Calendar.getInstance(Locale.US);
 
-	private Day currentDay;
 	private String currentRoom;
-	private Track currentTrack;
+	private Map<String, Track> tracks = new HashMap<>();
 
 	/**
 	 * Returns the hours portion of a time string in the "hh:mm" format, without allocating objects.
@@ -64,7 +64,7 @@ public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 		ArrayList<Event> events = new ArrayList<>();
 
 		// parseForReal() is called when a start tag for <day> has been found
-		currentDay = new Day();
+		Day currentDay = new Day();
 		currentDay.setIndex(Integer.parseInt(parser.getAttributeValue(null, "index")));
 
 		// the "start" attribute contains a time zone, perfect, we're in the 21st century,
@@ -100,7 +100,6 @@ public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 
 						String duration = null;
 						String trackName = "";
-						String trackType = "";
 
 						while (!isNextEndTag("event")) {
 							if (isStartTag()) {
@@ -143,7 +142,7 @@ public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 										trackName = parser.nextText();
 										break;
 									case "type":
-										trackType = parser.nextText();
+										event.setType(parser.nextText());
 										break;
 									case "abstract":
 										event.setAbstractText(parser.nextText());
@@ -187,10 +186,19 @@ public class EventsParser extends AbstractPullParser<ArrayList<Event>> {
 							event.setEndTime(calendar.getTime());
 						}
 
-						if ((currentTrack == null) || !trackName.equals(currentTrack.getName()) || !trackType.equals("")) {
-							currentTrack = new Track(trackName, trackType);
+						// Have we already encountered this track?
+						Track theTrack = tracks.get(trackName);
+						if(theTrack == null) {
+							// If not, make a new track and store it
+							theTrack = new TrackWithArray();
+							theTrack.setName(trackName);
+							tracks.put(trackName, theTrack);
 						}
-						event.setTrack(currentTrack);
+						// Now add the type to the list of event types contained in the track
+						// (.addType() automatically skips duplicates, empty strings and other garbage)
+						((TrackWithArray) theTrack).addType(event.getType());
+
+						event.setTrack(theTrack);
 
 						events.add(event);
 					default:

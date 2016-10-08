@@ -11,15 +11,15 @@ import android.os.Parcelable;
 
 public class Track implements Parcelable {
 
-	private String name;
-	private String type;
+	protected String name;
+	protected String types;
 
 	public Track() {
 	}
 
-	public Track(String name, String type) {
+	public Track(String name, String types) {
 		this.name = name;
-		this.type = type;
+		this.types = types;
 	}
 
 	public String getName() {
@@ -30,12 +30,20 @@ public class Track implements Parcelable {
 		this.name = name;
 	}
 
-	public String getType() {
-		return type;
+	public String getTypes() {
+		return types;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setTypes(String types) {
+		this.types = types;
+	}
+
+	protected void addToList(String type) {
+		if(types == null || types.length() == 0) {
+			types = type;
+		} else {
+			types += ", " + type;
+		}
 	}
 
 	@Override
@@ -48,7 +56,6 @@ public class Track implements Parcelable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + name.hashCode();
-		result = prime * result + type.hashCode();
 		return result;
 	}
 
@@ -59,7 +66,7 @@ public class Track implements Parcelable {
 		if (obj == null)
 			return false;
 		Track other = (Track) obj;
-		return name.equals(other.name) && type.equals(other.type);
+		return name.equals(other.name);
 	}
 
 	@Override
@@ -70,7 +77,7 @@ public class Track implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel out, int flags) {
 		out.writeString(name);
-		out.writeString(type);
+		out.writeString(types);
 	}
 
 	public static final Parcelable.Creator<Track> CREATOR = new Parcelable.Creator<Track>() {
@@ -85,6 +92,6 @@ public class Track implements Parcelable {
 
 	Track(Parcel in) {
 		name = in.readString();
-		type = in.readString();
+		types = in.readString();
 	}
 }

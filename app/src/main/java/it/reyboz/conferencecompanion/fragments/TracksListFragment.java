@@ -133,7 +133,7 @@ public class TracksListFragment extends SmoothListFragment implements LoaderCall
 			ViewHolder holder = (ViewHolder) view.getTag();
 			holder.track = DatabaseManager.toTrack(cursor, holder.track);
 			holder.name.setText(holder.track.getName());
-			holder.type.setText(holder.track.getType());
+			holder.type.setText(holder.track.getTypes());
 		}
 
 		static class ViewHolder {

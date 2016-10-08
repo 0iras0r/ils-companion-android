@@ -25,6 +25,7 @@ public class Event implements Parcelable {
 	private String title;
 	private String subTitle;
 	private Track track;
+	private String type;
 	private String abstractText;
 	private String description;
 	private String personsSummary;
@@ -124,6 +125,14 @@ public class Event implements Parcelable {
 		this.track = track;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public String getAbstractText() {
 		return abstractText;
 	}
@@ -206,6 +215,7 @@ public class Event implements Parcelable {
 		out.writeString(title);
 		out.writeString(subTitle);
 		track.writeToParcel(out, flags);
+		out.writeString(type);
 		out.writeString(abstractText);
 		out.writeString(description);
 		out.writeString(personsSummary);
@@ -239,6 +249,7 @@ public class Event implements Parcelable {
 		title = in.readString();
 		subTitle = in.readString();
 		track = Track.CREATOR.createFromParcel(in);
+		type = in.readString();
 		abstractText = in.readString();
 		description = in.readString();
 		personsSummary = in.readString();
