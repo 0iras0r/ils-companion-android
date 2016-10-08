@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Original source code from FOSDEM Companion app by Christophe Beyls.
+  ~ Modified by Ludovico Pavesi.
+  ~ Licensed under the Apache License, version 2.0.
+  -->
+
+<resources>
+    <string name="about">Informazioni</string><string name="about_text">App originale <a href="https://github.com/cbeyls/fosdem-companion-android">FOSDEM Companion</a> programmata da <a href="http://www.digitalia.be/">Christophe Beyls</a>.\n
+\nPer più informazioni su questa versione (Generic Conference Companion), vedi il <a href="https://github.com/0iras0r/ils-companion-android/blob/master/README.md">readme</a>.
+\n
+\nDistribuita sotto la licenza Apache, versione 2.0. Codice sorgente disponibile su <a href="https://github.com/0iras0r/ils-companion-android">GitHub</a>.
+\n
+\n<small>Questa applicazione usa le seguenti librerie:
+\n- <a href="http://developer.android.com/tools/support-library/">Android Support Library</a><i> di The Android Open Source Project</i>\n- <a href="http://viewpagerindicator.com/">ViewPagerIndicator</a><i> di Jake Wharton</i>\n- <a href="https://github.com/chrisbanes/PhotoView">PhotoView</a><i> di Chris Banes</i></small></string>
+    <string name="add_bookmark">Aggiungi ai segnalibri</string>
+    <string name="add_to_agenda">Aggiungi all\'agenda</string>
+    <string name="calendar_not_found">Nessuna app calendario compatibile trovata.</string>
+    <string name="close_menu">Chiudi menu</string>
+    <string name="day_number">Giorno %1$d (%2$s)</string>
+    <string name="download_reminder_message">Questo aggiornerà il database degli eventi all\'ultima versione. Verificate la connessione a internet.</string>
+    <string name="download_reminder_title">Aggiornamento</string>
+    <string name="error_title">Errore</string>
+    <string name="event_not_found_error">Impossibile caricare i dettagli della sessione.\nVerificate che il database sia stato aggiornato all\'ultima versione.</string>
+    <string name="events_download_empty">Nessun nuovo evento trovato</string>
+    <string name="events_download_up_to_date">Il database è già aggiornato</string>
+    <string name="filter">Filtra</string>
+    <string name="last_update">Ultimo aggiornamento DB: %1$s</string>
+    <string name="main_menu">Menu principale</string>
+    <string name="map">Mappa</string>
+    <string name="menu_bookmarks">Segnalibri</string>
+    <string name="menu_live">In diretta</string>
+    <string name="menu_map">Mappa</string>
+    <string name="menu_speakers">Relatori</string>
+    <string name="menu_tracks">Tracce</string>
+    <string name="more_info">Più informazioni</string>
+    <string name="never">Mai</string>
+    <string name="next">Fra poco</string>
+    <string name="now">Adesso</string>
+    <string name="next_empty">Drante la conferenza, gli eventi che si svolgeranno nei prossimi 30 minuti saranno mostrati qui.</string>
+    <string name="no_bookmark">Nessun segnalibro</string>
+    <string name="no_data">Dati non disponibili.</string>
+    <string name="no_search_result">Nessun risultato.</string>
+    <string name="now_empty">Drante la conferenza, gli eventi in corso saranno mostrati qui.</string>
+    <string name="related_links_header">Link correlati</string>
+    <string name="remove_bookmark">Rimuovi dai segnalibri</string>
+    <string name="remove_bookmarks">Rimuovi segnalibri</string>
+    <string name="room_map">Mappa della stanza</string>
+    <string name="schedule_loading_error">C\'è stato un errore drante l\'aggiornamento del programma degli eventi. Per favore riprova più tardi.</string>
+    <string name="search_events">Cerca eventi</string>
+    <string name="search_hint">Evento, traccia, persona</string>
+    <string name="search_length_error">La lunghezza minima del testo da cercare è di 3 caratteri.</string>
+    <string name="search_settings_description">Eventi</string>
+    <string name="settings">Impostazioni</string>
+    <string name="settings_notifications">Notifiche</string>
+    <string name="settings_notifications_delay_summary">Ritardo prima della notifica per l\'inizio di un evento salvato nei segnalibri</string>
+    <string name="settings_notifications_delay_title">Ora della notifica</string>
+    <string name="settings_notifications_enabled_summary">Se selezionato, sarà notificato l\'inizio degli eventi salvati nei segnalibri</string>
+    <string name="settings_notifications_enabled_title">Attiva notifiche</string>
+    <string name="settings_notifications_led_summary">Fai lampeggiare LED per le notifiche</string>
+    <string name="settings_notifications_led_title">LED</string>
+    <string name="settings_notifications_vibrate_summary">Vibra per le notifiche</string>
+    <string name="settings_notifications_vibrate_title">Vibrazione</string>
+    <string name="share">Condividi</string>
+    <string name="talks_header">Talk</string>
+    <string name="upcoming_only">Solo che stanno per cominciare</string>
+    <string name="update_events_db">Aggiorna database degli eventi</string>
+</resources>

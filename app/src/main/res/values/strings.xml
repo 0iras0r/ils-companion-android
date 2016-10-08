@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">Conference Companion</string>
+    <string name="app_name" translatable="false">LDTO16 Companion</string>
 
     <!-- Main screen -->
     <string name="main_menu">Main menu</string>
@@ -41,15 +41,6 @@
     <string name="next_empty">During the conference, the events to come in the next 30 minutes will be shown here.</string>
     <string name="now">Now</string>
     <string name="now_empty">During the conference, the events in progress will be shown here.</string>
-
-    <!-- Track types -->
-    <!-- TODO: move these somewhere else, maybe? -->
-    <string name="other">Other</string>
-    <string name="keynote">Keynote</string>
-    <string name="main_track">Main track</string>
-    <string name="developer_room">Developer room</string>
-    <string name="lightning_talk">Lightning talk</string>
-    <string name="certification_exam">Certification Exam</string>
 
     <!-- Search -->
     <string name="search_events">Search events</string>
@@ -110,7 +101,7 @@
 
     <!-- Others -->
     <string name="room_map">Room map</string>
-    <string name="directions">Directions to ULB</string>
+    <string name="map">Map</string>
     <string name="no_data">No data available.</string>
     <string name="about">About</string>
     <string name="about_text">Original <a href="https://github.com/cbeyls/fosdem-companion-android">FOSDEM Companion</a> app programmed by <a href="http://www.digitalia.be/">Christophe Beyls</a>.\n
