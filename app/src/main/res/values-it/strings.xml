@@ -54,7 +54,7 @@
     <string name="settings">Impostazioni</string>
     <string name="settings_notifications">Notifiche</string>
     <string name="settings_notifications_delay_summary">Ritardo prima della notifica per l\'inizio di un evento salvato nei segnalibri</string>
-    <string name="settings_notifications_delay_title">Ora della notifica</string>
+    <string name="settings_notifications_delay_title">Anticipo della notifica</string>
     <string name="settings_notifications_enabled_summary">Se selezionato, sarà notificato l\'inizio degli eventi salvati nei segnalibri</string>
     <string name="settings_notifications_enabled_title">Attiva notifiche</string>
     <string name="settings_notifications_led_summary">Fai lampeggiare LED per le notifiche</string>
