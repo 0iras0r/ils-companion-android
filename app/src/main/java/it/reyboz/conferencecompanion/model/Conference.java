@@ -15,13 +15,14 @@ public class Conference {
     private boolean Modified = false; // the "dirty bit", basically.
     private boolean textSizeNeedsRecalculation = true;
 
-    private String EventUrlFormat = "https://linuxdaytorino.org/2016/talk/%1$s"; // TODO: place URL into xml (update Tagliatella and db schema)
+    // TODO: remove default URLs
+    private String EventUrlFormat = "https://linuxdaytorino.org/2016/talk/%1$s";
     private String PersonUrlFormat = "https://linuxdaytorino.org/2016/user/%1$s";
     private String LongName = null;
     private String ShortName = null;
     private String Hashtag = null;
     private Integer textSize = 11; // leave something as default, here. Don't set to null!
-    // TODO: map URL?
+    // TODO: add map URL and a mechanism to store the png locally
 
     public Conference() {
 

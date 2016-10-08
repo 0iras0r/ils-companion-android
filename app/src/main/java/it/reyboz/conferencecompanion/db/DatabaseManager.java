@@ -782,7 +782,7 @@ public class DatabaseManager {
 		}
 	}
 
-	public static Person toPerson(Cursor cursor, Person person) { // TODO: place slug in DB
+	public static Person toPerson(Cursor cursor, Person person) {
 		if (person == null) {
 			person = new Person();
 		}

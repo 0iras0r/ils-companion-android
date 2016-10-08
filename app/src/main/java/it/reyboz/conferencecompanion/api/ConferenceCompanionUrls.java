@@ -14,10 +14,10 @@ package it.reyboz.conferencecompanion.api;
  */
 public class ConferenceCompanionUrls {
 
-	private static final String SCHEDULE_URL = "http://10.13.37.2:8000/schedule.xml"; // TODO: replace with public URL
+	private static final String SCHEDULE_URL = "http://linuxdaytorino.org/xml"; // TODO: get from preferences
 
 	public static String getSchedule() {
 		return SCHEDULE_URL;
 	}
-	
+
 }

@@ -17,6 +17,7 @@
         android:name="android.hardware.touchscreen"
         android:required="false"/>
 
+    <!-- TODO: change label back to Conference Companion -->
     <application
         android:name=".ConferenceCompanionApplication"
         android:allowBackup="false"
