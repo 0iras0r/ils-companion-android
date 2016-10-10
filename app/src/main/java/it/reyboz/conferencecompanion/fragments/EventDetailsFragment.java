@@ -242,13 +242,17 @@ public class EventDetailsFragment extends Fragment {
 		Conference conference = DatabaseManager.getInstance().getConference();
 		String shortName = conference.getShortName();
 		String hashtag = conference.getHashtag();
+		String url = event.getUrl(conference);
 
-		return ShareCompat.IntentBuilder.from(getActivity())
+		ShareCompat.IntentBuilder shareIntent = ShareCompat.IntentBuilder.from(getActivity())
 				.setSubject(String.format("%1$s%2$s", event.getTitle(), shortName == null ? "" : " (" + shortName + ")"))
-				.setType("text/plain")
-				.setText(String.format("%1$s %2$s %3$s", event.getTitle(), event.getUrl(conference), hashtag == null ? "" : hashtag))
-				.setChooserTitle(R.string.share)
-				.createChooserIntent();
+				.setType("text/plain");
+		if(url == null) {
+			shareIntent = shareIntent.setText(String.format("%1$s %2$s", event.getTitle(), hashtag == null ? "" : hashtag));
+		} else {
+			shareIntent = shareIntent.setText(String.format("%1$s %2$s %3$s", event.getTitle(), url, hashtag == null ? "" : hashtag));
+		}
+		return shareIntent.setChooserTitle(R.string.share).createChooserIntent();
 	}
 
 	void updateOptionsMenu() {
