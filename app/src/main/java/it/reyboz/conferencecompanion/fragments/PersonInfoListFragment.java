@@ -50,7 +50,9 @@ public class PersonInfoListFragment extends SmoothListFragment implements Loader
 
 		adapter = new EventsAdapter(getActivity());
 		person = getArguments().getParcelable(ARG_PERSON);
-		setHasOptionsMenu(true);
+		if(DatabaseManager.getInstance().getConference().getPersonUrlFormat() != null) {
+			setHasOptionsMenu(true);
+		}
 	}
 
 	@Override

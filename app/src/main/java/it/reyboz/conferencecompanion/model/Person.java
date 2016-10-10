@@ -39,6 +39,13 @@ public class Person implements Parcelable {
 	}
 
 	public String getUrl(Conference conference) {
+		String urlFormat = conference.getPersonUrlFormat();
+		String slug = getSlug();
+
+		if(urlFormat == null || slug == null) {
+			return null;
+		}
+
 		return String.format(Locale.US, conference.getPersonUrlFormat(), getSlug());
 	}
 

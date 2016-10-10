@@ -98,7 +98,14 @@ public class Event implements Parcelable {
 	}
 
 	public String getUrl(Conference conference) {
-		return String.format(Locale.US, conference.getEventUrlFormat(), getSlug());
+		String urlFormat = conference.getEventUrlFormat();
+		String slug =  getSlug();
+
+		if(urlFormat == null || slug == null) {
+			return null;
+		}
+
+		return String.format(Locale.US, urlFormat, slug);
 	}
 
 	public String getTitle() {
