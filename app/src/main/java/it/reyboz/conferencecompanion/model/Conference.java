@@ -15,9 +15,8 @@ public class Conference {
     private boolean Modified = false; // the "dirty bit", basically.
     private boolean textSizeNeedsRecalculation = true;
 
-    // TODO: remove default URLs
-    private String EventUrlFormat = "https://linuxdaytorino.org/2016/talk/%1$s";
-    private String PersonUrlFormat = "https://linuxdaytorino.org/2016/user/%1$s";
+    private String EventUrlFormat;
+    private String PersonUrlFormat;
     private String LongName = null;
     private String ShortName = null;
     private String Hashtag = null;
