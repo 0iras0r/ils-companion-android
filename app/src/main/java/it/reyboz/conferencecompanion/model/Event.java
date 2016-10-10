@@ -99,7 +99,7 @@ public class Event implements Parcelable {
 
 	public String getUrl(Conference conference) {
 		String urlFormat = conference.getEventUrlFormat();
-		String slug =  getSlug();
+		String slug = getSlug();
 
 		if(urlFormat == null || slug == null) {
 			return null;
