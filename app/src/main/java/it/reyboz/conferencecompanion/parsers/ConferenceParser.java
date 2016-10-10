@@ -22,7 +22,7 @@ public class ConferenceParser extends AbstractPullParser<Conference> {
                     case "hashtag": // XXX: nonstandard tag!
                         conference.setHashtag(parser.nextText());
                         break;
-                    case "event_url": // XXX: nonstandard tag!
+                    case "events_url": // XXX: nonstandard tag!
                         conference.setEventUrlFormat(parser.nextText());
                         break;
                     case "persons_url": // XXX: nonstandard tag!
