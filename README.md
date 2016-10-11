@@ -1,15 +1,35 @@
-# LD16 Companion
-Just a simple fork of the advanced native Android schedule browser application for the [FOSDEM](http://fosdem.org/) conference in Brussels, Belgium. The original project was made by Christophe Beyls.
+# LDTO Companion (Linux Day Torino)
+Just a simple fork of the [FOSDEM Companion](https://github.com/cbeyls/fosdem-companion-android) application. The original project was made by Christophe Beyls.
 
-The challenge is to make an agnostic version for any kind of conference.
-We hope we could make this.
+The goal was to make an agnostic version for any kind of conference.
 
-##Dat Team (Alfabetic Order)
-Rosario Antoci
+## Dat Team (Alfabetic Order)
+* Rosario Antoci
+* Valerio Bozzolan
+* Ludovico Pavesi
 
-Valerio Bozzolan
+## How to adapt to other conferences\events
+1. Fork this repository
+2. Rename the it/linuxday/torino directories to something suitable, possibly with `git mv`
+3. Search & replace every instance of `it.linuxday.torino` in app/src/main with something suitable
+4. Add a modification notice to every file you modify, if you intend to release the app. This is required by the Apache 2.0 license.
+5. Change colors, change the URL in app/src/main/java/.../api/ConferenceCompanionUrls.java, edit the `about_text` string in app/src/main/res/values/strings.xml
 
-Ludovico Pavesi
+## XML format
+The schedule format is the one called `xml` by the [frab](https://frab.github.io/frab/) software
+which, as far as we can tell, is different from the Pentabarf\xCal format.
+
+The app expects a few tags that aren't part of the standard; they're necessary to correctly "build"
+URLs to events and people profiles. In case they aren't available, these links should simply be
+hidden, but no thorough testing has been done. The [Tagliatella](https://github.com/lvps/tagliatella)
+script was made exactly to provide an xml file compatible with this app.
+
+The date and times used by FOSEDM in their 2016 schedule are in HH:MM:SS format, while Frab emits
+them as ISO 8601: the app should support both, but we mostly tested with HH:MM:SS.
+The Date class provided by Java doesn't really support time zones, which may cause some problems
+when a user downloads the schedules then moves to another time zone (events may move backward\forward
+in time); keep in mind this hasn't been tested at all so we don't know for sure. Any pull
+request for better date and time handling is very welcome.
 
 ## How to build
 

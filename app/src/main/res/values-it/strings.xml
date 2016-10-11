@@ -7,7 +7,7 @@
 
 <resources>
     <string name="about">Informazioni</string><string name="about_text">App originale <a href="https://github.com/cbeyls/fosdem-companion-android">FOSDEM Companion</a> programmata da <a href="http://www.digitalia.be/">Christophe Beyls</a>.\n
-\nPer più informazioni su questa versione (Generic Conference Companion), vedi il <a href="https://github.com/0iras0r/ils-companion-android/blob/master/README.md">readme</a>.
+\nPer più informazioni su questa versione (LDTO16 companion), vedi il <a href="https://github.com/0iras0r/ils-companion-android/blob/master/README.md">readme</a>.
 \n
 \nDistribuita sotto la licenza Apache, versione 2.0. Codice sorgente disponibile su <a href="https://github.com/0iras0r/ils-companion-android">GitHub</a>.
 \n
