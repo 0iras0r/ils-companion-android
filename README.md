@@ -3,7 +3,7 @@ Just a simple fork of the [FOSDEM Companion](https://github.com/cbeyls/fosdem-co
 
 The goal was to make an agnostic version for any kind of conference.
 
-## Dat Team (Alfabetic Order)
+## Dat Team (Alphabetic Order)
 * Rosario Antoci
 * Valerio Bozzolan
 * Ludovico Pavesi
@@ -13,7 +13,7 @@ The goal was to make an agnostic version for any kind of conference.
 2. Rename the it/linuxday/torino directories to something suitable, possibly with `git mv`
 3. Search & replace every instance of `it.linuxday.torino` in app/src/main with something suitable
 4. Add a modification notice to every file you modify, if you intend to release the app. This is required by the Apache 2.0 license.
-5. Change colors, change the URL in app/src/main/java/.../api/ConferenceCompanionUrls.java, edit the `about_text` string in app/src/main/res/values/strings.xml
+5. Change colors, change the URL in app/src/main/java/.../api/ConferenceCompanionUrls.java, edit the `about_text` string in app/src/main/res/values/strings.xml, change the map image, etc...
 
 ## XML format
 The schedule format is the one called `xml` by the [frab](https://frab.github.io/frab/) software
@@ -24,10 +24,10 @@ URLs to events and people profiles. In case they aren't available, these links s
 hidden, but no thorough testing has been done. The [Tagliatella](https://github.com/lvps/tagliatella)
 script was made exactly to provide an xml file compatible with this app.
 
-The date and times used by FOSEDM in their 2016 schedule are in HH:MM:SS format, while Frab emits
-them as ISO 8601: the app should support both, but we mostly tested with HH:MM:SS.
+The times used by FOSEDM in their 2016 schedule are in HH:MM format, while Frab emits them as
+ISO 8601 in its default configuration: the app should support both, but we mostly tested with HH:MM.
 The Date class provided by Java doesn't really support time zones, which may cause some problems
-when a user downloads the schedules then moves to another time zone (events may move backward\forward
+when a user downloads the schedule then moves to another time zone (events may move backward\forward
 in time); keep in mind this hasn't been tested at all so we don't know for sure. Any pull
 request for better date and time handling is very welcome.
 
