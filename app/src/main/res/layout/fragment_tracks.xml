@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <it.reyboz.conferencecompanion.widgets.SlidingTabLayout
+        <it.linuxday.torino.widgets.SlidingTabLayout
             android:id="@+id/sliding_tabs"
             style="@style/SlidingTabs"
             android:layout_width="match_parent"

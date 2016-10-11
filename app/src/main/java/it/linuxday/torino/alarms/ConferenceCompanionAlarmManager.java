@@ -1,0 +1,121 @@
+/*
+ * Original source code from FOSDEM Companion app by Christophe Beyls.
+ * Modified by Ludovico Pavesi.
+ * Licensed under the Apache License, version 2.0.
+ */
+
+package it.linuxday.torino.alarms;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
+import it.linuxday.torino.db.DatabaseManager;
+import it.linuxday.torino.fragments.SettingsFragment;
+import it.linuxday.torino.services.AlarmIntentService;
+
+/**
+ * This class monitors bookmarks and preferences changes to dispatch alarm update work to AlarmIntentService.
+ * 
+ * @author Christophe Beyls
+ * 
+ */
+public class ConferenceCompanionAlarmManager implements OnSharedPreferenceChangeListener {
+
+	private static ConferenceCompanionAlarmManager instance;
+
+	private Context context;
+	private boolean isEnabled;
+
+	private final BroadcastReceiver scheduleRefreshedReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// When the schedule DB is updated, update the alarms too
+			startUpdateAlarms();
+		}
+	};
+
+	private final BroadcastReceiver bookmarksReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// Dispatch the Bookmark broadcasts to the service
+			Intent serviceIntent = new Intent(context, AlarmIntentService.class);
+			serviceIntent.setAction(intent.getAction());
+			serviceIntent.putExtras(intent.getExtras());
+			context.startService(serviceIntent);
+		}
+	};
+
+	public static void init(Context context) {
+		if (instance == null) {
+			instance = new ConferenceCompanionAlarmManager(context);
+		}
+	}
+
+	public static ConferenceCompanionAlarmManager getInstance() {
+		return instance;
+	}
+
+	private ConferenceCompanionAlarmManager(Context context) {
+		this.context = context;
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		isEnabled = sharedPreferences.getBoolean(SettingsFragment.KEY_PREF_NOTIFICATIONS_ENABLED, false);
+		if (isEnabled) {
+			registerReceivers();
+		}
+		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+	}
+
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if (SettingsFragment.KEY_PREF_NOTIFICATIONS_ENABLED.equals(key)) {
+			isEnabled = sharedPreferences.getBoolean(SettingsFragment.KEY_PREF_NOTIFICATIONS_ENABLED, false);
+			if (isEnabled) {
+				registerReceivers();
+				startUpdateAlarms();
+			} else {
+				unregisterReceivers();
+				startDisableAlarms();
+			}
+		} else if (SettingsFragment.KEY_PREF_NOTIFICATIONS_DELAY.equals(key)) {
+			startUpdateAlarms();
+		}
+	}
+
+	private void registerReceivers() {
+		LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
+		lbm.registerReceiver(scheduleRefreshedReceiver, new IntentFilter(DatabaseManager.ACTION_SCHEDULE_REFRESHED));
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(DatabaseManager.ACTION_ADD_BOOKMARK);
+		filter.addAction(DatabaseManager.ACTION_REMOVE_BOOKMARKS);
+		lbm.registerReceiver(bookmarksReceiver, filter);
+	}
+
+	private void unregisterReceivers() {
+		LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
+		lbm.unregisterReceiver(scheduleRefreshedReceiver);
+		lbm.unregisterReceiver(bookmarksReceiver);
+	}
+
+	void startUpdateAlarms() {
+		Intent serviceIntent = new Intent(context, AlarmIntentService.class);
+		serviceIntent.setAction(AlarmIntentService.ACTION_UPDATE_ALARMS);
+		context.startService(serviceIntent);
+	}
+
+	private void startDisableAlarms() {
+		Intent serviceIntent = new Intent(context, AlarmIntentService.class);
+		serviceIntent.setAction(AlarmIntentService.ACTION_DISABLE_ALARMS);
+		context.startService(serviceIntent);
+	}
+}

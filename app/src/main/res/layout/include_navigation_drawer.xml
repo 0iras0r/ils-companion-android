@@ -5,7 +5,7 @@ Modified by Ludovico Pavesi.
 Licensed under the Apache License, version 2.0.
 -->
 
-<it.reyboz.conferencecompanion.widgets.ScrimInsetsFrameLayout
+<it.linuxday.torino.widgets.ScrimInsetsFrameLayout
     android:id="@+id/main_menu"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -37,7 +37,7 @@ Licensed under the Apache License, version 2.0.
                 android:textColor="@color/color_primary"
             />
 
-            <it.reyboz.conferencecompanion.widgets.AdapterLinearLayout
+            <it.linuxday.torino.widgets.AdapterLinearLayout
                 android:id="@+id/sections"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -74,4 +74,4 @@ Licensed under the Apache License, version 2.0.
         android:padding="4dp"
         tools:text="DB last updated: 1 jan. 2015 13:37:00"/>
 
-</it.reyboz.conferencecompanion.widgets.ScrimInsetsFrameLayout>
+</it.linuxday.torino.widgets.ScrimInsetsFrameLayout>
