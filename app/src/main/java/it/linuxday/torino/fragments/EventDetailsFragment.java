@@ -51,7 +51,6 @@ import it.linuxday.torino.model.Conference;
 import it.linuxday.torino.model.Event;
 import it.linuxday.torino.model.Link;
 import it.linuxday.torino.model.Person;
-import it.linuxday.torino.utils.DateUtils;
 import it.linuxday.torino.utils.StringUtils;
 
 public class EventDetailsFragment extends Fragment {
@@ -138,7 +137,7 @@ public class EventDetailsFragment extends Fragment {
 		((TextView) view.findViewById(R.id.track)).setText(event.getTrack().getName());
 		Date startTime = event.getStartTime();
 		Date endTime = event.getEndTime();
-		DateFormat timeDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+		DateFormat timeDateFormat = android.text.format.DateFormat.getTimeFormat(getContext());
 		text = String.format("%1$s, %2$s ― %3$s",
 				event.getDay().toString(),
 				(startTime != null) ? timeDateFormat.format(startTime) : "?",

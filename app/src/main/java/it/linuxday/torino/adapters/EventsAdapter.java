@@ -22,7 +22,6 @@ import java.util.Date;
 import it.linuxday.torino.R;
 import it.linuxday.torino.db.DatabaseManager;
 import it.linuxday.torino.model.Event;
-import it.linuxday.torino.utils.DateUtils;
 
 public class EventsAdapter extends CursorAdapter {
 
@@ -37,7 +36,7 @@ public class EventsAdapter extends CursorAdapter {
 	public EventsAdapter(Context context, boolean showDay) {
 		super(context, null, 0);
 		inflater = LayoutInflater.from(context);
-		timeDateFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+		timeDateFormat = android.text.format.DateFormat.getTimeFormat(context);
 		this.showDay = showDay;
 	}
 
