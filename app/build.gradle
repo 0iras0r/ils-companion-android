@@ -8,10 +8,10 @@ android {
         applicationId "it.reyboz.conferencecompanion"
         minSdkVersion 8
         targetSdkVersion 23
-        versionCode 700136
-        versionName "1.3.6"
+        versionCode 1
+        versionName "1.0.0"
         // Supported languages
-        resConfigs "en"
+        resConfigs "en,it"
     }
 
     buildTypes {
