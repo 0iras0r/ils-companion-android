@@ -5,11 +5,11 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "it.reyboz.conferencecompanion"
+        applicationId "it.linuxday.torino"
         minSdkVersion 8
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0.0"
+        versionName "ldto.1.0.0"
         // Supported languages
         resConfigs "en,it"
     }
