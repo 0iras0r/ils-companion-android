@@ -65,4 +65,11 @@
     <string name="talks_header">Talk</string>
     <string name="upcoming_only">Solo che stanno per cominciare</string>
     <string name="update_events_db">Aggiorna database degli eventi</string>
+    <string-array name="settings_notifications_delay_entries">
+        <item>5 minuti</item>
+        <item>10 minuti</item>
+        <item>15 minuti</item>
+        <item>30 minuti</item>
+        <item>1 ora</item>
+    </string-array>
 </resources>
