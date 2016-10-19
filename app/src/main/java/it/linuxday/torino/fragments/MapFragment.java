@@ -23,8 +23,8 @@ import it.linuxday.torino.R;
 
 public class MapFragment extends Fragment {
 
-	private static final double DESTINATION_LATITUDE = 50.812375;
-	private static final double DESTINATION_LONGITUDE = 4.380734;
+	private static final double DESTINATION_LATITUDE = 45.0901566;
+	private static final double DESTINATION_LONGITUDE = 7.6570523;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

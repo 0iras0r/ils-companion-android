@@ -13,7 +13,7 @@ The goal was to make an agnostic version for any kind of conference.
 2. Rename the it/linuxday/torino directories to something suitable, possibly with `git mv`
 3. Search & replace every instance of `it.linuxday.torino` in app/src/main with something suitable
 4. Add a modification notice to every file you modify, if you intend to release the app. This is required by the Apache 2.0 license.
-5. Change colors, change the URL in app/src/main/java/.../api/ConferenceCompanionUrls.java, edit the `about_text` string in app/src/main/res/values/strings.xml, change the map image, etc...
+5. Change colors, change the URL in app/src/main/java/.../api/ConferenceCompanionUrls.java and coordinates in app/src/main/java/.../fragments/MapFragment.java, edit the `about_text` string in app/src/main/res/values/strings.xml, change the map image, etc...
 
 ## XML format
 The schedule format is the one called `xml` by the [frab](https://frab.github.io/frab/) software
